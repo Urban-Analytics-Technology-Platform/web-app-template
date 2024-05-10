@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":"pnpm run -r dev"
+    "build_components": "pnpm --filter ua-components run build",
+    "dev_components":"pnpm --filter ua-components  run  dev",
+    "dev_app":"pnpm --filter uatp_template  run  dev"
   },
   "keywords": [],
   "author": "",
