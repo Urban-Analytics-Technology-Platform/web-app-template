@@ -9,3 +9,5 @@ node_modules
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 template_app/.svelte-kit
+template_app/test-results
+ua_components/test-results
