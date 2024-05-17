@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { FeatureCollection } from 'geojson';
 	import { SplitComponent } from 'ua-components/two_column_layout';
-	import { mode, backend } from './globals';
+	import { map, mode, backend } from './globals';
 	import { DefaultMarker, GeoJSON, FillLayer } from 'svelte-maplibre';
 
 	let center: [number, number] = [-122.2993, 47.4464];
