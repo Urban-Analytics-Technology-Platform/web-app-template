@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
 /build
-/.svelte-kit
+.svelte-kit
 /package
 .env
 .env.*
@@ -11,3 +11,4 @@ vite.config.ts.timestamp-*
 template_app/.svelte-kit
 template_app/test-results
 ua_components/test-results
+*.swp
