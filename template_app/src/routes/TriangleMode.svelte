@@ -4,11 +4,15 @@
   import { map, mode, backend, isLoaded } from "./globals";
   import { DefaultMarker, GeoJSON, FillLayer } from "svelte-maplibre";
 
+  // This is an example mode where the user can drag a marker around and change distance.
+
   let center: [number, number] = [-122.2993, 47.4464];
   let distanceMeters = 10000;
 
   let gj: FeatureCollection = { type: "FeatureCollection", features: [] };
 
+  // Every time any of these two variables change, call the Rust backend
+  // (asynchronously) and display something new.
   $: recalculate(center, distanceMeters);
   async function recalculate(_a: [number, number], _b: number) {
     gj.features = [
@@ -20,8 +24,8 @@
     gj = gj;
   }
 
-  function resetMode() {
-    $backend!.unset();
+  async function resetMode() {
+    await $backend!.unset();
     $isLoaded = false;
     $mode = { kind: "title" };
   }
