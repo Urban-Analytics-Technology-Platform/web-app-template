@@ -14,6 +14,8 @@
   import { onMount } from "svelte";
   import type { Map } from "maplibre-gl";
 
+  // Everythign in this script section is boilerplate; you can ignore it
+
   onMount(async () => {
     // If you get "import declarations may only appear at top level of a
     // module", then you need a newer browser.
@@ -65,6 +67,7 @@
     >
       <div bind:this={mapDiv}></div>
 
+      <!-- When you define new modes, you have to wire them up here -->
       {#if $mode.kind == "title"}
         <TitleMode />
       {:else if $mode.kind == "triangle"}

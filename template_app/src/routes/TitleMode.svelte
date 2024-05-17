@@ -4,6 +4,10 @@
   import { backend, mode, isLoaded } from "./globals";
   import * as Comlink from "comlink";
 
+  // This page has an example of picking a file and passing it to the Rust
+  // backend. That setup usually takes a long time (in real cases), so
+  // there's a loading screen.
+
   let loading: string[] = [];
 
   let fileInput: HTMLInputElement;
