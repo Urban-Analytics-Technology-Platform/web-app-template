@@ -2,6 +2,8 @@ import * as Comlink from "comlink";
 import init, { Backend as RustBackend } from "rust_backend";
 import type { Position, Feature, Polygon } from "geojson";
 
+// This is glue to call the Rust backend asynchronously in a web worker, off the main browser thread
+
 export class Backend {
   inner: RustBackend | null;
 
@@ -10,7 +12,7 @@ export class Backend {
   }
 
   async loadInput(inputBytes: Uint8Array, progressCb: (msg: string) => void) {
-    // TODO Do we need to do this only once?
+    // It's safe to call this repeatedly
     await init();
 
     this.inner = new RustBackend(inputBytes, progressCb);
