@@ -36,7 +36,7 @@
 	},
 	"dependencies": {
 		"svelte-maplibre": "git+https://github.com/dabreegster/svelte-maplibre.git#svelte5",
-		"ua-components":"workspace:*"
+		"ua-components": "workspace:*"
 	},
 	"type": "module"
 }
