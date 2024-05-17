@@ -3,7 +3,7 @@
 	import { MapLibre } from 'svelte-maplibre';
 	import TitleMode from './TitleMode.svelte';
 	import TriangleMode from './TriangleMode.svelte';
-	import { map as mapStore, backend, isLoaded, mode } from './globals';
+	import { map as mapStore, backend, mode } from './globals';
 	import workerWrapper from './worker?worker';
 	import { type Backend } from './worker';
 	import * as Comlink from 'comlink';
@@ -26,10 +26,6 @@
 		const MyWorker: Comlink.Remote<WorkerConstructor> = Comlink.wrap(new workerWrapper());
 		let backendWorker = await new MyWorker();
 		backend.set(backendWorker);
-
-		// TODO It might make sense to do this later, with input from the UI
-		await backendWorker.setup();
-		isLoaded.set(true);
 	});
 
 	let map: Map | undefined = undefined;
