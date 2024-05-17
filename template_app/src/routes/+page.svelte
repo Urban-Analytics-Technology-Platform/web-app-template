@@ -1,22 +1,34 @@
 <script lang="ts">
+	import { Layout, mapContents, sidebarContents } from 'ua-components/two_column_layout';
 	import { MapLibre } from 'svelte-maplibre';
-	import { SimpleComponent } from 'ua-components';
+	import DemoMode from './DemoMode.svelte';
+
+	let sidebarDiv: HTMLDivElement;
+	let mapDiv: HTMLDivElement;
+	$: if (sidebarDiv && $sidebarContents) {
+		sidebarDiv.innerHTML = '';
+		sidebarDiv.appendChild($sidebarContents);
+	}
+	$: if (mapDiv && $mapContents) {
+		mapDiv.innerHTML = '';
+		mapDiv.appendChild($mapContents);
+	}
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<Layout>
+	<div slot="left">
+		<h1>App title</h1>
+		<div bind:this={sidebarDiv}></div>
+	</div>
+	<div slot="main" style="position:relative; width: 100%; height: 100vh;">
+		<MapLibre
+			style="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
+			standardControls
+			hash
+		>
+			<div bind:this={mapDiv}></div>
 
-<MapLibre style="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json" standardControls />
-<div id="float">
-	<SimpleComponent name="Stu" />
-</div>
-
-<style>
-	#float {
-		position: absolute;
-		top: 20px;
-		right: 20px;
-		background-color: white;
-		padding: 20px;
-	}
-</style>
+			<DemoMode />
+		</MapLibre>
+	</div>
+</Layout>
