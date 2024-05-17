@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { Layout, mapContents, sidebarContents } from 'ua-components/two_column_layout';
 	import { MapLibre } from 'svelte-maplibre';
-	import DemoMode from './DemoMode.svelte';
-	import { map as mapStore, backend, isLoaded } from './globals';
+	import TitleMode from './TitleMode.svelte';
+	import TriangleMode from './TriangleMode.svelte';
+	import { map as mapStore, backend, isLoaded, mode } from './globals';
 	import workerWrapper from './worker?worker';
 	import { type Backend } from './worker';
 	import * as Comlink from 'comlink';
@@ -62,7 +63,11 @@
 		>
 			<div bind:this={mapDiv}></div>
 
-			<DemoMode />
+			{#if $mode.kind == 'title'}
+				<TitleMode />
+			{:else if $mode.kind == 'triangle'}
+				<TriangleMode />
+			{/if}
 		</MapLibre>
 	</div>
 </Layout>
