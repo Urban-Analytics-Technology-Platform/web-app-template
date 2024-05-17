@@ -5,7 +5,7 @@
 	import { DefaultMarker, GeoJSON, FillLayer } from 'svelte-maplibre';
 
 	let center: [number, number] = [-122.2993, 47.4464];
-	let distanceMeters = 10;
+	let distanceMeters = 10000;
 
 	let gj: FeatureCollection = { type: 'FeatureCollection', features: [] };
 
@@ -17,7 +17,6 @@
 				distanceMeters
 			})
 		];
-		console.log(JSON.stringify(gj));
 		gj = gj;
 	}
 </script>
@@ -29,7 +28,7 @@
 		<div>
 			<label>
 				Distance (meters): {distanceMeters}
-				<input type="range" min="0" max="1000" bind:value={distanceMeters} />
+				<input type="range" min="0" max="100000" bind:value={distanceMeters} />
 			</label>
 		</div>
 	</div>
