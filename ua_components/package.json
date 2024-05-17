@@ -19,6 +19,11 @@
 		".": {
 			"types": "./dist/index.d.ts",
 			"svelte": "./dist/index.js"
+		},
+		"./two_column_layout": {
+			"types": "./dist/two_column_layout/index.d.ts",
+			"svelte": "./dist/two_column_layout/index.js",
+			"import": "./dist/two_column_layout/index.js"
 		}
 	},
 	"files": [
