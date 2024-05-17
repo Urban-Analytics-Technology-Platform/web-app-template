@@ -25,18 +25,14 @@ export class Backend {
 		this.inner = null;
 	}
 
-	exampleCall(req: {
-		// TODO LngLatLike doesn't work?
-		start: { lng: number; lat: number };
-		distanceMeters: number;
-	}): Feature<Polygon> {
+	exampleCall(req: { center: [number, number]; distanceMeters: number }): Feature<Polygon> {
 		if (!this.inner) {
 			throw new Error('Backend used before ready');
 		}
 
 		return JSON.parse(
 			this.inner.exampleCall({
-				center: [req.start.lng, req.start.lat],
+				center: req.center,
 				distance_meters: req.distanceMeters
 			})
 		);
