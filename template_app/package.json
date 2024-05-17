@@ -12,14 +12,17 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"test:integration": "playwright test",
-		"test:unit": "vitest"
+		"test:unit": "vitest",
+		"wasm": "wasm-pack build --dev --target web ../rust_backend",
+		"wasm-release": "wasm-pack build --release --target web ../rust_backend"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
-		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/adapter-static": "^3.0.1",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@types/eslint": "8.56.0",
+		"@types/geojson": "^7946.0.14",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
 		"eslint": "^8.56.0",
@@ -32,9 +35,12 @@
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0",
 		"vite": "^5.0.3",
+		"vite-plugin-wasm-pack": "0.1.11",
 		"vitest": "^1.2.0"
 	},
 	"dependencies": {
+		"comlink": "^4.4.1",
+		"maplibre-gl": "^4.3.1",
 		"svelte-maplibre": "git+https://github.com/dabreegster/svelte-maplibre.git#svelte5",
 		"ua-components": "workspace:*"
 	},

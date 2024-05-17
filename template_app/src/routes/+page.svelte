@@ -2,6 +2,39 @@
 	import { Layout, mapContents, sidebarContents } from 'ua-components/two_column_layout';
 	import { MapLibre } from 'svelte-maplibre';
 	import DemoMode from './DemoMode.svelte';
+	import { map as mapStore, backend, isLoaded } from './globals';
+	import workerWrapper from './worker?worker';
+	import { type Backend } from './worker';
+	import * as Comlink from 'comlink';
+	import { onMount } from 'svelte';
+	import type { Map } from 'maplibre-gl';
+
+	onMount(async () => {
+		// If you get "import declarations may only appear at top level of a
+		// module", then you need a newer browser.
+		// https://caniuse.com/mdn-api_worker_worker_ecmascript_modules
+		//
+		// In Firefox 112, go to about:config and enable dom.workers.modules.enabled
+		//
+		// Note this should work fine in older browsers when doing 'npm run build'.
+		// It's only a problem during local dev mode.
+		interface WorkerConstructor {
+			new (): Backend;
+		}
+
+		const MyWorker: Comlink.Remote<WorkerConstructor> = Comlink.wrap(new workerWrapper());
+		let backendWorker = await new MyWorker();
+		backend.set(backendWorker);
+
+		// TODO It might make sense to do this later, with input from the UI
+		await backendWorker.setup();
+		isLoaded.set(true);
+	});
+
+	let map: Map | undefined = undefined;
+	$: if (map) {
+		mapStore.set(map);
+	}
 
 	let sidebarDiv: HTMLDivElement;
 	let mapDiv: HTMLDivElement;
@@ -25,6 +58,7 @@
 			style="https://basemaps.cartocdn.com/gl/positron-gl-style/style.json"
 			standardControls
 			hash
+			bind:map
 		>
 			<div bind:this={mapDiv}></div>
 
