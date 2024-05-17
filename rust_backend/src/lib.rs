@@ -1,12 +1,16 @@
 #[macro_use]
 extern crate log;
 
+mod timer;
+
 use std::sync::Once;
 
 use geo::{HaversineDestination, LineString, Point, Polygon};
 use geojson::{Feature, Geometry};
 use serde::Deserialize;
 use wasm_bindgen::prelude::*;
+
+use self::timer::Timer;
 
 static START: Once = Once::new();
 
@@ -16,12 +20,14 @@ pub struct Backend {}
 #[wasm_bindgen]
 impl Backend {
     #[wasm_bindgen(constructor)]
-    pub fn new() -> Backend {
+    pub fn new(input_bytes: &[u8], progress_cb: js_sys::Function) -> Backend {
         // Panics shouldn't happen, but if they do, console.log them.
         console_error_panic_hook::set_once();
         START.call_once(|| {
             console_log::init_with_level(log::Level::Info).unwrap();
         });
+
+        load_something(input_bytes, Timer::new("setup backend", Some(progress_cb)));
 
         Backend {}
     }
@@ -63,4 +69,14 @@ fn err_to_js<E: std::fmt::Display>(err: E) -> JsValue {
 struct ExampleRequest {
     center: [f64; 2],
     distance_meters: f64,
+}
+
+fn load_something(input_bytes: &[u8], mut timer: Timer) {
+    for step in 0..10 {
+        timer.step(format!("do something, step {step}"));
+        let mut sum: u64 = 0;
+        for x in input_bytes {
+            sum = sum.overflowing_add(*x as u64).0;
+        }
+    }
 }

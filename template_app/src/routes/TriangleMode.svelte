@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { FeatureCollection } from 'geojson';
 	import { SplitComponent } from 'ua-components/two_column_layout';
-	import { map, mode, backend } from './globals';
+	import { map, mode, backend, isLoaded } from './globals';
 	import { DefaultMarker, GeoJSON, FillLayer } from 'svelte-maplibre';
 
 	let center: [number, number] = [-122.2993, 47.4464];
@@ -19,11 +19,17 @@
 		];
 		gj = gj;
 	}
+
+	function resetMode() {
+		$backend!.unset();
+		$isLoaded = false;
+		$mode = { kind: 'title' };
+	}
 </script>
 
 <SplitComponent>
 	<div slot="sidebar">
-		<button on:click={() => ($mode = { kind: 'title' })}>Back to title screen</button>
+		<button on:click={resetMode}>Back to title screen</button>
 
 		<div>
 			<label>

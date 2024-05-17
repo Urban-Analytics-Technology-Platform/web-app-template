@@ -9,20 +9,19 @@ export class Backend {
 		this.inner = null;
 	}
 
-	// TODO This structure makes more sense when the constructor actually does some work based on input
-	async setup() {
+	async loadInput(inputBytes: Uint8Array, progressCb: (msg: string) => void) {
 		// TODO Do we need to do this only once?
 		await init();
 
-		this.inner = new RustBackend();
-	}
-
-	isLoaded(): boolean {
-		return this.inner != null;
+		this.inner = new RustBackend(inputBytes, progressCb);
 	}
 
 	unset() {
 		this.inner = null;
+	}
+
+	isLoaded(): boolean {
+		return this.inner != null;
 	}
 
 	exampleCall(req: { center: [number, number]; distanceMeters: number }): Feature<Polygon> {
