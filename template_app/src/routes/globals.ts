@@ -9,3 +9,6 @@ export let map: Writable<Map | null> = writable(null);
 export let backend: Writable<Comlink.Remote<Backend> | null> = writable(null);
 // Indicates the backend is ready
 export let isLoaded = writable(false);
+
+export type Mode = { kind: 'title' } | { kind: 'triangle' };
+export let mode: Writable<Mode> = writable({ kind: 'title' });
