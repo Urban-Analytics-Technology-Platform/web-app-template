@@ -33,6 +33,8 @@ jobs:
           pnpm i
           pnpm wasm-release
           BASE_PATH=/web-app-template pnpm build
+          # Unclear why this is necessary
+          cp -Rv build/assets/ build/_app/immutable/workers/
 
       - name: Publish
         uses: peaceiris/actions-gh-pages@v3
