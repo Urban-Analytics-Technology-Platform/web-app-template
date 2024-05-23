@@ -1,0 +1,37 @@
+exclude: '^node_modules'
+default_stages: [commit]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-merge-conflict
+      - id: check-toml
+      # - id: check-yaml # initial issue with pnpm
+      # Other that could be switched on, keeping simple
+      # - id: check-json
+      # - id: check-xml
+      # - id: debug-statements
+      # - id: check-builtin-literals
+      - id: check-case-conflict
+      - id: debug-statements
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: detect-private-key
+      - id: mixed-line-ending
+      - id: sort-simple-yaml
+      - id: check-shebang-scripts-are-executable
+      - id: check-case-conflict
+      # - id: check-ast # python specific
+      - id: check-symlinks
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: 'v4.0.0-alpha.8'
+    hooks:
+      - id: prettier
+        types_or: [markdown]
+
+# sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
+ci:
+  autoupdate_schedule: weekly
+  submodules: false

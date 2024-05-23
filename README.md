@@ -1,12 +1,12 @@
 # UA web template
 
-This repo contains 
+This repo contains
 
 - A set of Svelte components for building Urban Analytics applications
 - An app template for getting started with these applications
 - A sample Rust backend
 
-There are some pnpm commands for making it easier to work with both 
+There are some pnpm commands for making it easier to work with both
 
 ```
     pnpm build_components # Build the component library
