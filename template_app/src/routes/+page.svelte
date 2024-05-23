@@ -14,8 +14,9 @@
   import { onMount } from "svelte";
   import type { Map } from "maplibre-gl";
 
-  // Everythign in this script section is boilerplate; you can ignore it
+  // Everything in this script section is boilerplate; you can ignore it
 
+  // TODO Refactor this part if possible
   onMount(async () => {
     // If you get "import declarations may only appear at top level of a
     // module", then you need a newer browser.
