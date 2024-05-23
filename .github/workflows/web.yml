@@ -1,0 +1,29 @@
+name: Deploy web
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Build web app
+        run: |
+          pnpm build_components
+          cd template_app
+          pnpm i
+          pnpm wasm
+          BASE_PATH=/web-app-template pnpm build
+
+      - name: Publish
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/
