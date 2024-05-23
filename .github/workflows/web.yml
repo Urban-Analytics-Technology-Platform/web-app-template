@@ -16,8 +16,11 @@ jobs:
 
       - name: Build web app
         run: |
-          pnpm build_components
-          cd template_app
+          cd ua_components
+          pnpm i
+          pnpm build
+
+          cd ../template_app
           pnpm i
           pnpm wasm
           BASE_PATH=/web-app-template pnpm build
