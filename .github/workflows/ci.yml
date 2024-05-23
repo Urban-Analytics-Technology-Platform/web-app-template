@@ -21,3 +21,19 @@ jobs:
       run: |
         pnpm install
         pnpm run test
+
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+
+      - name: Run pre-commit
+        uses: pre-commit/action@v3.0.1
+
+      - name: Update pre-commit
+        uses: pre-commit-ci/lite-action@main
+        if: always()
