@@ -31,7 +31,7 @@ jobs:
 
           cd ../template_app
           pnpm i
-          pnpm wasm
+          pnpm wasm-release
           BASE_PATH=/web-app-template pnpm build
 
       - name: Publish
