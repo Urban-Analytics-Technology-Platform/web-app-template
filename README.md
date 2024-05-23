@@ -4,6 +4,7 @@ This repo contains
 
 - A set of Svelte components for building Urban Analytics applications
 - An app template for getting started with these applications
+  - The sample app is deployed at <https://urban-analytics-technology-platform.github.io/web-app-template/>
 - A sample Rust backend
 
 There are some pnpm commands for making it easier to work with both 
