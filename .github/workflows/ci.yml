@@ -1,7 +1,10 @@
 name: CI Workflow
 on:
+    pull_request:
+      branches: [main]
+
     push:
-      branches: [main, meta-test]
+      branches: [main]
 
 jobs:
   js-tests:
