@@ -30,6 +30,9 @@ repos:
     hooks:
       - id: prettier
         types_or: [markdown]
+        additional_dependencies:
+          - prettier@v4.0.0-alpha.8
+          - prettier-plugin-svelte
 
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:

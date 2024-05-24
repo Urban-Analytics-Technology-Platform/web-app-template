@@ -1,13 +1,12 @@
 name: CI Workflow
 on:
-    pull_request:
-      branches: [main]
+  pull_request:
+    branches: [main]
 
-    push:
-      branches: [main]
+  push:
+    branches: [main]
 
 jobs:
-
   js-tests:
     runs-on: ubuntu-latest
     steps:
