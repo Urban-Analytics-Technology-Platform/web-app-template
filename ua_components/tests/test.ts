@@ -1,9 +1,9 @@
 import { expect, test } from "@playwright/test";
 
-// Below fails while `ua_components` is still in library mode
-// test("index page has expected h1", async ({ page }) => {
-//   await page.goto("/");
-//   await expect(
-//     page.getByRole("heading", { name: "Welcome to SvelteKit" }),
-//   ).toBeVisible();
-// });
+// I assume this isn't visible because this is meant to be a library
+test("index page doesn't exist", async ({ page }) => {
+  await page.goto("/");
+  await expect(
+    page.getByRole("heading", { name: "Welcome to SvelteKit" }),
+  ).not.toBeVisible();
+});
