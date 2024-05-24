@@ -6,35 +6,32 @@ on:
     push:
       branches: [main]
 
-env:
-  MIN_PYTHON_VERSION: 3.12
-
 jobs:
+
   js-tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Install pnpm
-      uses: pnpm/action-setup@v4
-      with:
-        version: 9
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
-    - name: Install and run tests
-      run: |
-        pnpm install
-        pnpm run test
+      - name: Install and run tests
+        run: |
+          pnpm install
+          pnpm run test
 
   linting:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-      - uses: actions/checkout@v4
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.MIN_PYTHON_VERSION }}
 
       - name: Run pre-commit
         uses: pre-commit/action@v3.0.1
