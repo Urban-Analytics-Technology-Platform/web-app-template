@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  js-tests:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -18,12 +18,21 @@ jobs:
         with:
           version: 9
 
+      - name: Install wasm-pack
+        uses: jetli/wasm-pack-action@v0.4.0
+
+      - name: Cache WASM build
+        uses: actions/cache@v3
+        with:
+          path: rust_backend/target
+          key: doesnt-matter-share-everything
+
       - name: Install and run tests
         run: |
           pnpm install
           pnpm run test
 
-  linting:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
