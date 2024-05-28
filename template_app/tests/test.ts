@@ -9,7 +9,5 @@ test("index page doesn't have default h1", async ({ page }) => {
 
 test("index page has 'Hi Stu' h3", async ({ page }) => {
   await page.goto("/");
-  await expect(
-    page.getByRole("heading", { name: "Hi Stu" }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Hi Stu" })).toBeVisible();
 });

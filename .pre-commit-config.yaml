@@ -25,14 +25,15 @@ repos:
       # - id: check-ast # python specific
       - id: check-symlinks
 
-  # - repo: https://github.com/pre-commit/mirrors-prettier
-  #   rev: 'v4.0.0-alpha.8'
-  #   hooks:
-  #     - id: prettier
-  #       types_or: [markdown]
-  #       additional_dependencies:
-  #         - prettier@v4.0.0-alpha.8
-  #         - prettier-plugin-svelte
+  # A prettier workaround using the local `prettier` config.
+  # Requires a local `pnpm` install
+  - repo: local
+    hooks:
+      - id: prettier-format
+        name: prettier-format
+        language: system
+        entry: >
+          bash -c 'pnpm run format'
 
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:
