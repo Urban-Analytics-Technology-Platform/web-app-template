@@ -41,6 +41,11 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
       - name: Run pre-commit
         uses: pre-commit/action@v3.0.1
 
