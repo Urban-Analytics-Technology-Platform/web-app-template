@@ -46,6 +46,10 @@ jobs:
         with:
           version: 9
 
+      - name: Install pnpm components
+        run: |
+          pnpm install
+
       - name: Run pre-commit
         uses: pre-commit/action@v3.0.1
 
