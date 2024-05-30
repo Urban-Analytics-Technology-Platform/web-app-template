@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-// I assume this isn't visible because this is meant to be a library
+// This isn't visible because this is a library
 test("index page doesn't exist", async ({ page }) => {
   await page.goto("/");
   await expect(

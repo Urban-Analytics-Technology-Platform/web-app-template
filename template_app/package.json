@@ -16,6 +16,8 @@
     "test:integration": "playwright test",
     "test:unit": "vitest",
     "test:unit-run": "vitest run",
+    "test:integration": "playwright test",
+    "test:unit": "vitest",
     "wasm": "wasm-pack build --dev --target web ../rust_backend",
     "wasm-release": "wasm-pack build --release --target web ../rust_backend"
   },
