@@ -34,6 +34,11 @@ repos:
         language: system
         entry: >
           bash -c 'pnpm run format'
+      - id: cargo-format
+        name: cargor-format
+        language: system
+        entry: >
+          bash -c 'cd rust_backend && cargo fmt'
 
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:
