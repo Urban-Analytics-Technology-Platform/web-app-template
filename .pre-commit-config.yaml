@@ -35,7 +35,7 @@ repos:
         entry: >
           bash -c 'pnpm run format'
       - id: cargo-format
-        name: cargor-format
+        name: cargo-format
         language: system
         entry: >
           bash -c 'cd rust_backend && cargo fmt'
