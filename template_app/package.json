@@ -18,7 +18,8 @@
     "test:unit": "vitest",
     "test:unit-run": "vitest run",
     "wasm": "wasm-pack build --dev --target web ../rust_backend",
-    "wasm-release": "wasm-pack build --release --target web ../rust_backend"
+    "wasm-release": "wasm-pack build --release --target web ../rust_backend",
+    "setup-pyodide": "curl -L https://github.com/pyodide/pyodide/releases/download/0.26.0/pyodide-0.26.0.tar.bz2 | tar -xjf - -C static"
   },
   "devDependencies": {
     "@playwright/test": "^1.28.1",
