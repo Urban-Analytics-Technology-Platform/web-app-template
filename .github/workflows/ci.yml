@@ -1,0 +1,58 @@
+name: CI Workflow
+on:
+  pull_request:
+    branches: [main]
+
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install wasm-pack
+        uses: jetli/wasm-pack-action@v0.4.0
+
+      - name: Cache WASM build
+        uses: actions/cache@v3
+        with:
+          path: rust_backend/target
+          key: rust_backend
+
+      - name: Install and run tests
+        run: |
+          pnpm install
+          pnpm run test
+
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install pnpm components
+        run: |
+          pnpm install
+
+      - name: Run pre-commit
+        uses: pre-commit/action@v3.0.1
+
+      - name: Update pre-commit
+        uses: pre-commit-ci/lite-action@main
+        if: always()

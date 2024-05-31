@@ -1,8 +1,9 @@
 import { expect, test } from "@playwright/test";
 
-test("index page has expected h1", async ({ page }) => {
+// This isn't visible because this is a library
+test("index page doesn't exist", async ({ page }) => {
   await page.goto("/");
   await expect(
     page.getByRole("heading", { name: "Welcome to SvelteKit" }),
-  ).toBeVisible();
+  ).not.toBeVisible();
 });

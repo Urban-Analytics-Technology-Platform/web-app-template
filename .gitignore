@@ -8,6 +8,8 @@ build
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+template_app/test-results
+ua_components/test-results
 *.swp
 Cargo.lock
 target
