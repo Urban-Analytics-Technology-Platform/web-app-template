@@ -11,14 +11,12 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --check . && eslint .",
-    "format": "prettier --write .",
+    "format": "prettier --write src tests *.json *.ts *.js",
     "test:prep": "pnpm exec playwright install && npm run wasm",
     "test:all": "npm run test:integration && npm run test:unit-run",
     "test:integration": "playwright test",
     "test:unit": "vitest",
     "test:unit-run": "vitest run",
-    "test:integration": "playwright test",
-    "test:unit": "vitest",
     "wasm": "wasm-pack build --dev --target web ../rust_backend",
     "wasm-release": "wasm-pack build --release --target web ../rust_backend"
   },
@@ -47,6 +45,7 @@
   "dependencies": {
     "comlink": "^4.4.1",
     "maplibre-gl": "^4.3.1",
+    "pyodide": "^0.26.0",
     "svelte-maplibre": "git+https://github.com/dabreegster/svelte-maplibre.git#svelte5",
     "ua-components": "workspace:*"
   },
