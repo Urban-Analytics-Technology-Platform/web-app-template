@@ -21,16 +21,16 @@
         },
       },
       data: {
-        labels: data.map((row) => row.year),
+        labels: data.map((row: any) => row.year),
         datasets: [
           {
             label: "Acquisitions by year",
-            data: data.map((row) => row.count),
+            data: data.map((row: any) => row.count),
           },
         ],
       },
     };
-    new Chart(document.getElementById("myCanvas").getContext("2d")!, options);
+    new Chart((document.getElementById("myCanvas") as HTMLCanvasElement).getContext("2d")!, options);
   });
 </script>
 
