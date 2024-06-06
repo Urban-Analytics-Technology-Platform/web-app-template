@@ -1,16 +1,15 @@
 // From example: https://www.chartjs.org/docs/latest/getting-started/usage.html
-import cubejs from "@cubejs-client/core";
+import cubejs, { CubeApi } from "@cubejs-client/core";
 
-const apiUrl =
+const apiUrl: string =
   "https://heavy-lansford.gcp-us-central1.cubecloudapp.dev/cubejs-api/v1";
-const cubeToken =
+const cubeToken: string =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjEwMDAwMDAwMDAsImV4cCI6NTAwMDAwMDAwMH0.OHZOpOBVKr-sCwn8sbZ5UFsqI3uCs6e4omT7P6WVMFw";
 
-// const cubeApi = new cubejs(cubeToken, { apiUrl });
-const cubeApi = cubejs(cubeToken, { apiUrl });
+const cubeApi: CubeApi = cubejs(cubeToken, { apiUrl });
 
 export async function getAquisitionsByYear() {
-  const acquisitionsByYearQuery = {
+  const acquisitionsByYearQuery: any = {
     dimensions: ["Artworks.yearAcquired"],
     measures: ["Artworks.count"],
     filters: [
@@ -27,13 +26,13 @@ export async function getAquisitionsByYear() {
   const resultSet = await cubeApi.load(acquisitionsByYearQuery);
 
   return resultSet.tablePivot().map((row) => ({
-    year: parseInt(row["Artworks.yearAcquired"]),
-    count: parseInt(row["Artworks.count"]),
+    year: parseInt(row["Artworks.yearAcquired"] as string),
+    count: parseInt(row["Artworks.count"] as string),
   }));
 }
 
 export async function getDimensions() {
-  const dimensionsQuery = {
+  const dimensionsQuery: any = {
     dimensions: ["Artworks.widthCm", "Artworks.heightCm"],
     measures: ["Artworks.count"],
     filters: [
@@ -66,8 +65,8 @@ export async function getDimensions() {
   const resultSet = await cubeApi.load(dimensionsQuery);
 
   return resultSet.tablePivot().map((row) => ({
-    width: parseInt(row["Artworks.widthCm"]),
-    height: parseInt(row["Artworks.heightCm"]),
-    count: parseInt(row["Artworks.count"]),
+    width: parseInt(row["Artworks.widthCm"] as string),
+    height: parseInt(row["Artworks.heightCm"] as string),
+    count: parseInt(row["Artworks.count"] as string),
   }));
 }
