@@ -8,10 +8,10 @@
 
   export let title: string;
 
-  Chart.register(...registerables, zoomPlugin);
   let chartInstance;
 
   onMount(async () => {
+    Chart.register(...registerables, zoomPlugin);
     const data = await getDimensions();
     const scales = {
       x: {
@@ -60,13 +60,11 @@
       },
     };
 
-    let ctx = (
-      document.getElementById("bubbleCanvas") as HTMLCanvasElement
-    ).getContext("2d")!;
-    chartInstance = new Chart(ctx, options);
+    let canvas = document.getElementById("bubbleCanvas") as HTMLCanvasElement;
+
+    chartInstance = new Chart(canvas.getContext("2d")!, options);
   });
-  // });
 </script>
 
 <h3>{title}</h3>
-<canvas id="bubbleCanvas" style="width: 100%; height: 200px;"></canvas>
+<canvas id="bubbleCanvas" style="width: 100%; height: 400px;"></canvas>
