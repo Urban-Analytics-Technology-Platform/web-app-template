@@ -30,7 +30,12 @@
         ],
       },
     };
-    new Chart((document.getElementById("myCanvas") as HTMLCanvasElement).getContext("2d")!, options);
+    new Chart(
+      (document.getElementById("myCanvas") as HTMLCanvasElement).getContext(
+        "2d",
+      )!,
+      options,
+    );
   });
 </script>
 

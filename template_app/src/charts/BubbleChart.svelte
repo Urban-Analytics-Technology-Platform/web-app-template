@@ -49,7 +49,7 @@
             mode: "x",
             drag: true,
             onZoomComplete: ({ chart }) => {
-              console.log('Zoom complete event triggered');
+              console.log("Zoom complete event triggered");
               const xAxis = chart.scales.x;
               const startValue = xAxis.getValueForPixel(xAxis.left);
               const endValue = xAxis.getValueForPixel(xAxis.right);
@@ -60,7 +60,9 @@
       },
     };
 
-    let ctx = (document.getElementById("myCanvas") as HTMLCanvasElement).getContext("2d")!
+    let ctx = (
+      document.getElementById("bubbleCanvas") as HTMLCanvasElement
+    ).getContext("2d")!;
     chartInstance = new Chart(ctx, options);
   });
   // });

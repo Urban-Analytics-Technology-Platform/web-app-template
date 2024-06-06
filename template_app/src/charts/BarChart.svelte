@@ -34,4 +34,3 @@
 
 <h3>{title}</h3>
 <canvas use:makeBarChart style="width: 100%; height: 200px;"></canvas>
-
