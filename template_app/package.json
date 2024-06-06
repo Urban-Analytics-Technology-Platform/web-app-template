@@ -43,6 +43,7 @@
     "vitest": "^1.2.0"
   },
   "dependencies": {
+    "@cubejs-client/core": "^0.35.23",
     "chart.js": "^4.4.3",
     "comlink": "^4.4.1",
     "maplibre-gl": "^4.3.1",

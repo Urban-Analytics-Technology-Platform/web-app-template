@@ -13,8 +13,10 @@
   import * as Comlink from "comlink";
   import { onMount } from "svelte";
   import type { Map } from "maplibre-gl";
-  import BarChart from "../charts/BarChart.svelte";
-  let canvas;
+  // import BarChart from "../charts/BarChart.svelte";
+  import ScatterChart from "../charts/ApiBarChart.svelte";
+    import BarChart from "../charts/BarChart.svelte";
+    import ApiBarChart from "../charts/ApiBarChart.svelte";
 
   // Everything in this script section is boilerplate; you can ignore it
 
@@ -61,6 +63,9 @@
     <h1>App title</h1>
     <div bind:this={sidebarDiv}></div>
     <div><BarChart title="A bar chart" /></div>
+    <div><ApiBarChart title="A bar chart with data from an API" /></div>
+    <!-- TODO: Add scatter plot -->
+    <!-- <div><ScatterChart title="A scatter chart" /></div> -->
   </div>
   <div slot="main" style="position:relative; width: 100%; height: 100vh;">
     <MapLibre
