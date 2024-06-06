@@ -13,6 +13,8 @@
   import * as Comlink from "comlink";
   import { onMount } from "svelte";
   import type { Map } from "maplibre-gl";
+  import BarChart from "../charts/BarChart.svelte";
+  let canvas;
 
   // Everything in this script section is boilerplate; you can ignore it
 
@@ -58,6 +60,7 @@
   <div slot="left">
     <h1>App title</h1>
     <div bind:this={sidebarDiv}></div>
+    <div><BarChart title="A bar chart" /></div>
   </div>
   <div slot="main" style="position:relative; width: 100%; height: 100vh;">
     <MapLibre

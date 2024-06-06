@@ -19,9 +19,6 @@ importers:
       maplibre-gl:
         specifier: ^4.3.1
         version: 4.3.2
-      svelte-chartjs:
-        specifier: ^3.1.5
-        version: 3.1.5(chart.js@4.4.3)(svelte@5.0.0-next.125)
       svelte-maplibre:
         specifier: git+https://github.com/dabreegster/svelte-maplibre.git#svelte5
         version: github.com/dabreegster/svelte-maplibre/a8c8c9c60d63b71911cef6cfe3cfa1921d123966(svelte@5.0.0-next.125)
@@ -2871,16 +2868,6 @@ packages:
     dependencies:
       has-flag: 4.0.0
     dev: true
-
-  /svelte-chartjs@3.1.5(chart.js@4.4.3)(svelte@5.0.0-next.125):
-    resolution: {integrity: sha512-ka2zh7v5FiwfAX1oMflZ0HkNkgjHjFqANgRyC+vNYXfxtx2ku68Zo+2KgbKeBH2nS1ThDqkIACPzGxy4T0UaoA==}
-    peerDependencies:
-      chart.js: ^3.5.0 || ^4.0.0
-      svelte: ^4.0.0
-    dependencies:
-      chart.js: 4.4.3
-      svelte: 5.0.0-next.125
-    dev: false
 
   /svelte-check@3.7.1(postcss@8.4.38)(svelte@5.0.0-next.125):
     resolution: {integrity: sha512-U4uJoLCzmz2o2U33c7mPDJNhRYX/DNFV11XTUDlFxaKLsO7P+40gvJHMPpoRfa24jqZfST4/G9fGNcUGMO8NAQ==}

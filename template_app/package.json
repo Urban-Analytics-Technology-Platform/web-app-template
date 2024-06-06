@@ -46,7 +46,6 @@
     "chart.js": "^4.4.3",
     "comlink": "^4.4.1",
     "maplibre-gl": "^4.3.1",
-    "svelte-chartjs": "^3.1.5",
     "svelte-maplibre": "git+https://github.com/dabreegster/svelte-maplibre.git#svelte5",
     "ua-components": "workspace:*"
   },
