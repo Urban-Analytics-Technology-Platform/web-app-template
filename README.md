@@ -29,7 +29,6 @@ The development workflow:
 - When anything in the component library changes, `pnpm build_components` from the root directory
 - When any dependency is added to the template app, `cd template_app; pnpm i`
 - When the Rust backend code changes, `cd template_app; pnpm wasm`
-- As a one-time setup, `cd template_app; pnpm setup-pyodide`
 - To run the template app locally (which'll auto-reload any Svelte/TS changes within), `cd template; pnpm dev`
 
 The repository structure:
