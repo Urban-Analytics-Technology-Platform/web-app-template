@@ -32,6 +32,7 @@ jobs:
           cd ../template_app
           pnpm i
           pnpm wasm-release
+          pnpm setup-pyodide
           BASE_PATH=/web-app-template pnpm build
           # Unclear why this is necessary
           cp -Rv build/assets/ build/_app/immutable/workers/
