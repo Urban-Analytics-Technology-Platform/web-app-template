@@ -17,8 +17,6 @@
     "test:integration": "playwright test",
     "test:unit": "vitest",
     "test:unit-run": "vitest run",
-    "test:integration": "playwright test",
-    "test:unit": "vitest",
     "wasm": "wasm-pack build --dev --target web ../rust_backend",
     "wasm-release": "wasm-pack build --release --target web ../rust_backend"
   },
@@ -45,6 +43,9 @@
     "vitest": "^1.2.0"
   },
   "dependencies": {
+    "@cubejs-client/core": "^0.35.23",
+    "chart.js": "^4.4.3",
+    "chartjs-plugin-zoom": "^2.0.1",
     "comlink": "^4.4.1",
     "maplibre-gl": "^4.3.1",
     "svelte-maplibre": "git+https://github.com/dabreegster/svelte-maplibre.git#svelte5",
