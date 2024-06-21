@@ -38,6 +38,7 @@ export class Backend {
   }
 
   unset() {
+    // Don't do anything
     this.backend = null;
   }
 
