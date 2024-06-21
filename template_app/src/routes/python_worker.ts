@@ -6,12 +6,9 @@ import type { Position, Feature, Polygon } from "geojson";
 
 export class Backend {
   pyodide: PyodideInterface | null;
-  // The stateful Python object
-  backend: any | null;
 
   constructor() {
     this.pyodide = null;
-    this.backend = null;
   }
 
   async loadInput(inputBytes: Uint8Array, progressCb: (msg: string) => void) {
@@ -25,25 +22,15 @@ export class Backend {
     await this.pyodide.loadPackage("micropip");
     let micropip = this.pyodide.pyimport("micropip");
     await micropip.install("haversine");
-
-    // Load the backend code from a file
-    // TODO Probably build a wheel instead: https://pyodide.org/en/stable/usage/loading-custom-python-code.html
-    progressCb("Downloading backend code");
-    let resp = await fetch("/backend.py");
-    let contents = await resp.text();
-    this.pyodide.runPython(contents);
-
-    progressCb("Constructing the backend object with the input");
-    this.backend = this.pyodide.globals.get("Backend")(inputBytes);
   }
 
   unset() {
     // Don't do anything
-    this.backend = null;
+    // TODO Once there's a stateful object, clear it
   }
 
   isLoaded(): boolean {
-    return this.pyodide != null && this.backend != null;
+    return this.pyodide != null;
   }
 
   exampleCall(req: {
@@ -54,7 +41,35 @@ export class Backend {
       throw new Error("Backend used before ready");
     }
 
-    let result = this.backend.exampleCall(req.center, req.distanceMeters);
+    let script = `
+    import json
+    from haversine import inverse_haversine, Direction, Unit
+
+    def swap(pt):
+      return (pt[1], pt[0])
+
+    center = (${req.center[1]}, ${req.center[0]})
+    dist = ${req.distanceMeters}
+    pt1 = swap(inverse_haversine(center, dist, Direction.NORTHWEST, unit=Unit.METERS))
+    pt2 = swap(inverse_haversine(center, dist, Direction.NORTHEAST, unit=Unit.METERS))
+    pt3 = swap(inverse_haversine(center, dist, Direction.SOUTH, unit=Unit.METERS))
+
+    gj = {
+      "type": "Feature",
+      "properties": {
+        "key": "value",
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[pt1, pt2, pt3, pt1]],
+      },
+    }
+
+    json.dumps(gj)
+    `;
+
+    // TODO async?
+    let result = this.pyodide.runPython(script);
     return JSON.parse(result);
   }
 }
