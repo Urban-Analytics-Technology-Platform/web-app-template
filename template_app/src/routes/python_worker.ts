@@ -16,10 +16,8 @@ export class Backend {
 
   async loadInput(inputBytes: Uint8Array, progressCb: (msg: string) => void) {
     progressCb("Loading pyodide");
-    // Use the pyodide CDN to fetch other packages. Most scripts only need a
-    // few, and hosting all of them on GH Pages is expensive.
     this.pyodide = await loadPyodide({
-      indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.1/full/",
+      indexURL: "/pyodide",
     });
 
     // Setup packages
