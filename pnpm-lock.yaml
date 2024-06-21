@@ -16,9 +16,6 @@ importers:
       maplibre-gl:
         specifier: ^4.3.1
         version: 4.3.1
-      pyodide:
-        specifier: ^0.26.0
-        version: 0.26.0
       svelte-maplibre:
         specifier: git+https://github.com/dabreegster/svelte-maplibre.git#svelte5
         version: https://codeload.github.com/dabreegster/svelte-maplibre/tar.gz/a8c8c9c60d63b71911cef6cfe3cfa1921d123966(svelte@5.0.0-next.125)
@@ -1515,10 +1512,6 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
-  pyodide@0.26.0:
-    resolution: {integrity: sha512-6thkjsvbvebqNlb2mtkVF5ODcWUYT0lVuOgww4cfEJFVM0J3MtTNPznVahVDzKOdCwSWvCfAqeEqP0wR6jj5uQ==}
-    engines: {node: '>=18.0.0'}
-
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
@@ -1913,18 +1906,6 @@ packages:
 
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
-
-  ws@8.17.0:
-    resolution: {integrity: sha512-uJq6108EgZMAl20KagGkzCKfMEjxmKvZHG7Tlq0Z6nOky7YF7aq4mOx6xK8TJ/i1LeK4Qus7INktacctDgY8Ow==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
 
   yaml@1.10.2:
     resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
@@ -3346,13 +3327,6 @@ snapshots:
 
   punycode@2.3.1: {}
 
-  pyodide@0.26.0:
-    dependencies:
-      ws: 8.17.0
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-
   queue-microtask@1.2.3: {}
 
   quickselect@2.0.0: {}
@@ -3730,8 +3704,6 @@ snapshots:
   word-wrap@1.2.5: {}
 
   wrappy@1.0.2: {}
-
-  ws@8.17.0: {}
 
   yaml@1.10.2: {}
 

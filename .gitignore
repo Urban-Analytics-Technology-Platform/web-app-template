@@ -13,5 +13,3 @@ ua_components/test-results
 *.swp
 Cargo.lock
 target
-
-template_app/static/pyodide

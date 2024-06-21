@@ -8,13 +8,11 @@
   import TitleMode from "./TitleMode.svelte";
   import TriangleMode from "./TriangleMode.svelte";
   import { map as mapStore, backend, mode } from "./globals";
+  import workerWrapper from "./worker?worker";
+  import { type Backend } from "./worker";
   import * as Comlink from "comlink";
   import { onMount } from "svelte";
   import type { Map } from "maplibre-gl";
-  //import workerWrapper from "./rust_worker?worker";
-  //import { type Backend } from "./rust_worker";
-  import workerWrapper from "./python_worker?worker";
-  import { type Backend } from "./python_worker";
 
   // Everything in this script section is boilerplate; you can ignore it
 
