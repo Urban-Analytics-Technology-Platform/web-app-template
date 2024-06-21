@@ -3,8 +3,7 @@
 import type { Map } from "maplibre-gl";
 import { writable, type Writable } from "svelte/store";
 import * as Comlink from "comlink";
-//import { type Backend } from "./rust_worker";
-import { type Backend } from "./python_worker";
+import { type Backend } from "./worker";
 
 // Using the MapLibre map directly isn't needed often; try to use
 // svelte-maplibre components inside the "map" slot
