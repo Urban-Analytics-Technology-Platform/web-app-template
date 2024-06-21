@@ -29,7 +29,6 @@ The development workflow:
 - When anything in the component library changes, `pnpm build_components` from the root directory
 - When any dependency is added to the template app, `cd template_app; pnpm i`
 - When the Rust backend code changes, `cd template_app; pnpm wasm`
-- As a one-time setup, `cd template_app; pnpm setup-pyodide`
 - To run the template app locally (which'll auto-reload any Svelte/TS changes within), `cd template; pnpm dev`
 
 The repository structure:
@@ -42,7 +41,6 @@ The repository structure:
   - It includes a "backend" that's compiled to WASM and run locally in the browser. The WASM code runs in a web worker (off the main browser thread), and all interaction is done through async calls using [Comlink](https://github.com/GoogleChromeLabs/comlink).
 - `rust_backend`: an example Rust backend that can be copied and modified
   - It contains useful setup for a WASM environment and an example of a long-running blocking computation
-- `python_backend`: an example Python backend that can be copied and modified
 
 ## User guide
 
