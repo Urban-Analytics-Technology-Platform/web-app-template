@@ -41,6 +41,7 @@ The repository structure:
   - It includes a "backend" that's compiled to WASM and run locally in the browser. The WASM code runs in a web worker (off the main browser thread), and all interaction is done through async calls using [Comlink](https://github.com/GoogleChromeLabs/comlink).
 - `rust_backend`: an example Rust backend that can be copied and modified
   - It contains useful setup for a WASM environment and an example of a long-running blocking computation
+- `python_backend`: an example Python backend that can be copied and modified
 
 ## User guide
 
