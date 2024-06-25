@@ -3,6 +3,7 @@ import { defineConfig } from "vitest/config";
 import wasmPack from "vite-plugin-wasm-pack";
 
 export default defineConfig({
+  worker: { format: "es" },
   plugins: [sveltekit(), wasmPack(["../rust_backend"], [])],
   test: {
     include: ["src/**/*.{test,spec}.{js,ts}"],
