@@ -26,12 +26,21 @@ jobs:
           path: rust_backend/target
           key: rust_backend
 
-      - name: Install and run tests
+      - name: Install dependencies for all packages
+        run: pnpm install
+
+      - name: Test create-ua-web
         run: |
-          pnpm install
           pnpm --filter=create-ua-web test
+
+      - name: Test uatp_template
+        run: |
+          pnpm --filter=uatp_template wasm
           pnpm --filter=uatp_template build
           pnpm --filter=uatp_template test
+
+      - name: Test ua-components
+        run: |
           pnpm --filter=ua-components build
           pnpm --filter=ua-components test
 
