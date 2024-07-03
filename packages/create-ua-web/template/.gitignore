@@ -1,0 +1,6 @@
+node_modules/
+dist/
+test-results/
+*.DS_Store
+package-lock.json
+.svelte-kit/
