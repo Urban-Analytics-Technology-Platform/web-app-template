@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "preinstall": "tsc",
-    "test": "echo \"NO TESTS YET\" && true"
+    "test": "echo \"NO TESTS YET\" || true"
   },
   "author": "The Alan Turing Institute",
   "license": "MIT",
@@ -16,6 +16,6 @@
     "typescript": "^5.5.3"
   },
   "dependencies": {
-    "@inquirer/prompts": "^5.1.0"
+    "@clack/prompts": "^0.7.0"
   }
 }
