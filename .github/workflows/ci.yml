@@ -29,9 +29,11 @@ jobs:
       - name: Install and run tests
         run: |
           pnpm install
-          pnpm --filter=create-ua-web run test
-          pnpm --filter=uatp_template run test
-          pnpm --filter=ua-components run test
+          pnpm --filter=create-ua-web test
+          pnpm --filter=uatp_template build
+          pnpm --filter=uatp_template test
+          pnpm --filter=ua-components build
+          pnpm --filter=ua-components test
 
   pre-commit:
     runs-on: ubuntu-latest
