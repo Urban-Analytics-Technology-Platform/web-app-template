@@ -29,9 +29,12 @@ jobs:
       - name: Install dependencies for all packages
         run: pnpm install
 
-      - name: Test create-ua-web
+      # NOTE: It's important to build ua-components _before_ uatp_template,
+      # since the latter depends on it.
+      - name: Test ua-components
         run: |
-          pnpm --filter=create-ua-web test
+          pnpm --filter=ua-components build
+          pnpm --filter=ua-components test
 
       - name: Test uatp_template
         run: |
@@ -39,10 +42,10 @@ jobs:
           pnpm --filter=uatp_template build
           pnpm --filter=uatp_template test
 
-      - name: Test ua-components
+      - name: Test create-ua-web
         run: |
-          pnpm --filter=ua-components build
-          pnpm --filter=ua-components test
+          pnpm --filter=create-ua-web test
+
 
   pre-commit:
     runs-on: ubuntu-latest
