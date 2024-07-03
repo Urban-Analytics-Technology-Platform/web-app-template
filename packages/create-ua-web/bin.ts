@@ -1,2 +1,6 @@
 #!/usr/bin/env node
-console.log("Hello, world from TypeScript bin.ts");
+import { input } from '@inquirer/prompts';
+
+const answer = await input({ message: 'Enter your name' });
+
+console.log(answer)

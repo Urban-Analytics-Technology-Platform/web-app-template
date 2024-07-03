@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
-    "target": "es2016",
-    "module": "commonjs",
+    "target": "es2022",
+    "module": "node16",
     "strict": true
   },
   "exclude": ["node_modules", "template"]
