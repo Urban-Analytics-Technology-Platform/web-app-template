@@ -1,16 +1,9 @@
 {
   "name": "web-app-template",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "pnpm --filter \"*\" test",
-    "format": "pnpm --filter \"*\" format",
-    "build_components": "pnpm --filter ua-components run build",
-    "dev_components":"pnpm --filter ua-components  run  dev",
-    "dev_app":"pnpm --filter uatp_template  run  dev"
-  },
+  "description": "monorepo for create-ua-web and ua-components",
+  "private": true,
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }
