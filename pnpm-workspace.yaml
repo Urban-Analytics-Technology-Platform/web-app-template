@@ -1,4 +1,4 @@
 packages:
   - 'packages/ua_components'
   - 'packages/create-ua-web'
-  - 'packages/create-ua-web/template'
+  - 'packages/create-ua-web/template/template_app'
