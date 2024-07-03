@@ -33,12 +33,12 @@ repos:
         name: prettier-format
         language: system
         entry: >
-          bash -c 'pnpm run format'
+          bash -c 'pnpm --filter="!*monorepo" format'
       - id: cargo-format
         name: cargo-format
         language: system
         entry: >
-          bash -c 'cd rust_backend && cargo fmt'
+          bash -c 'cd packages/create-ua-web/template/rust_backend && cargo fmt'
 
 # sets up .pre-commit-ci.yaml to ensure pre-commit dependencies stay up to date
 ci:
