@@ -1,0 +1,15 @@
+{
+  "name": "create-ua-web",
+  "version": "0.0.1",
+  "description": "spin up a web app with the UATP template",
+  "bin": "dist/bin.js",
+  "main": "dist/index.js",
+  "scripts": {
+    "preinstall": "tsc"
+  },
+  "author": "The Alan Turing Institute",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.5.3"
+  }
+}

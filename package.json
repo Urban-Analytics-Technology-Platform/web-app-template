@@ -1,9 +1,6 @@
 {
   "name": "web-app-template",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "monorepo for create-ua-web and ua-components",
-  "private": true,
-  "keywords": [],
-  "author": "",
-  "license": "MIT"
+  "private": true
 }
