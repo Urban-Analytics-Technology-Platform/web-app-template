@@ -7,14 +7,33 @@
   import { MapLibre } from "svelte-maplibre";
   import TitleMode from "./TitleMode.svelte";
   import TriangleMode from "./TriangleMode.svelte";
-  import { map as mapStore, backend, mode } from "./globals";
+  // @@start template
+  import { map as mapStore, rustBackend, pythonBackend, mode } from "./globals";
+  // @@end template
+  // @@start rust
+  // import { map as mapStore, rustBackend, mode } from "./globals";
+  // @@end rust
+  // @@start python
+  // import { map as mapStore, pythonBackend, mode } from "./globals";
+  // @@end python
+
   import * as Comlink from "comlink";
   import { onMount } from "svelte";
   import type { Map } from "maplibre-gl";
-  //import workerWrapper from "./rust_worker?worker";
-  //import { type Backend } from "./rust_worker";
-  import workerWrapper from "./python_worker?worker";
-  import { type Backend } from "./python_worker";
+  // @@start template
+  import rustWorkerWrapper from "./rust_worker?worker";
+  import { type RustBackend } from "./rust_worker";
+  import pythonWorkerWrapper from "./python_worker?worker";
+  import { type PythonBackend } from "./python_worker";
+  // @@end template
+  // @@start rust
+  // import workerWrapper from "./rust_worker?worker";
+  // import { type Backend } from "./rust_worker";
+  // @@end rust
+  // @@start python
+  // import workerWrapper from "./python_worker?worker";
+  // import { type Backend } from "./python_worker";
+  // @@end python
 
   // Everything in this script section is boilerplate; you can ignore it
 
@@ -28,15 +47,22 @@
     //
     // Note this should work fine in older browsers when doing 'npm run build'.
     // It's only a problem during local dev mode.
-    interface WorkerConstructor {
-      new (): Backend;
+    interface RustWorkerConstructor {
+      new (): RustBackend;
     }
-
-    const MyWorker: Comlink.Remote<WorkerConstructor> = Comlink.wrap(
-      new workerWrapper(),
+    const MyRustWorker: Comlink.Remote<RustWorkerConstructor> = Comlink.wrap(
+      new rustWorkerWrapper(),
     );
-    let backendWorker = await new MyWorker();
-    backend.set(backendWorker);
+    let rustBackendWorker = await new MyRustWorker();
+    rustBackend.set(rustBackendWorker);
+
+    interface PythonWorkerConstructor {
+      new (): PythonBackend;
+    }
+    const MyPythonWorker: Comlink.Remote<PythonWorkerConstructor> =
+      Comlink.wrap(new pythonWorkerWrapper());
+    let pythonBackendWorker = await new MyPythonWorker();
+    pythonBackend.set(pythonBackendWorker);
   });
 
   let map: Map | undefined = undefined;

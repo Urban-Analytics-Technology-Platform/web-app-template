@@ -97,9 +97,10 @@ Note that you have to build the library before you can see changes in the templa
 
 If the dependencies change: `pnpm install`
 
-If any code in the Rust backend is changed: `pnpm wasm`
+If any code in the Rust backend is changed: `pnpm wasm`.
+(You will have to restart your dev server if it's running.)
 
-To run the template app locally (which'll auto-reload any Svelte/TS changes within): `pnpm dev`
+To run the template app locally (which'll auto-reload any Svelte/TS changes within, but not Rust changes): `pnpm dev`
 
 ### `create-ua-web` script
 

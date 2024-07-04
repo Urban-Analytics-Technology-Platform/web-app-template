@@ -1,21 +1,20 @@
 import * as Comlink from "comlink";
-import init, { Backend as RustBackend } from "rust_backend";
-import type { Position, Feature, Polygon } from "geojson";
+import init, { Backend as WasmInterface } from "rust_backend";
+import type { FeatureCollection } from "geojson";
 
 // This is glue to call the Rust backend asynchronously in a web worker, off the main browser thread
 
-export class Backend {
-  inner: RustBackend | null;
+export class RustBackend {
+  inner: WasmInterface | null;
 
   constructor() {
     this.inner = null;
   }
 
-  async loadInput(inputBytes: Uint8Array, progressCb: (msg: string) => void) {
+  async initialise() {
     // It's safe to call this repeatedly
     await init();
-
-    this.inner = new RustBackend(inputBytes, progressCb);
+    this.inner = new WasmInterface();
   }
 
   unset() {
@@ -26,21 +25,14 @@ export class Backend {
     return this.inner != null;
   }
 
-  exampleCall(req: {
-    center: [number, number];
-    distanceMeters: number;
-  }): Feature<Polygon> {
+  async addColours(gj: FeatureCollection): Promise<FeatureCollection> {
     if (!this.inner) {
-      throw new Error("Backend used before ready");
+      throw new Error("RustBackend not initialised");
     }
-
-    return JSON.parse(
-      this.inner.exampleCall({
-        center: req.center,
-        distance_meters: req.distanceMeters,
-      }),
-    );
+    const result = JSON.parse(this.inner!.addColours(gj));
+    console.log("RustBackend.addColours result", result);
+    return result;
   }
 }
 
-Comlink.expose(Backend);
+Comlink.expose(RustBackend);

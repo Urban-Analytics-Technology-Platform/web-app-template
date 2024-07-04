@@ -18,7 +18,8 @@
     "test:unit": "vitest",
     "test:unit-run": "vitest run",
     "wasm": "wasm-pack build --dev --target web ../rust_backend",
-    "wasm-release": "wasm-pack build --release --target web ../rust_backend"
+    "wasm-release": "wasm-pack build --release --target web ../rust_backend",
+    "python": "pip wheel ../python_backend -w ./static"
   },
   "devDependencies": {
     "@playwright/test": "^1.28.1",

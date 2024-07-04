@@ -5,14 +5,22 @@ mod timer;
 
 use std::sync::Once;
 
-use geo::{HaversineDestination, LineString, Point, Polygon};
-use geojson::{Feature, Geometry};
+use geojson::{Feature, FeatureCollection};
+use rand::seq::SliceRandom;
 use serde::Deserialize;
+use serde_json::map::Map;
 use wasm_bindgen::prelude::*;
 
 use self::timer::Timer;
 
 static START: Once = Once::new();
+
+pub fn get_random_color() -> &'static str {
+    let mut rng = rand::thread_rng();
+    ["#C28055", "#C91A00", "#D23900", "#FFFFFF", "#F65200"]
+        .choose(&mut rng)
+        .unwrap()
+}
 
 // This struct should contain actual state. This will probably depend on the input passed to the
 // constructor. This file (lib.rs) should handle all the WASM interactions, and most of the logic
@@ -22,50 +30,44 @@ pub struct Backend {}
 
 #[wasm_bindgen]
 impl Backend {
-    // Takes a big byte array from the browser and a callback to plumb progress messages
     #[wasm_bindgen(constructor)]
-    pub fn new(input_bytes: &[u8], progress_cb: js_sys::Function) -> Backend {
+    pub fn new() -> Backend {
         // Panics shouldn't happen, but if they do, console.log them.
         console_error_panic_hook::set_once();
         START.call_once(|| {
             console_log::init_with_level(log::Level::Info).unwrap();
         });
-
-        load_something(input_bytes, Timer::new("setup backend", Some(progress_cb)));
-
+        initialise(Timer::new("setup backend", None));
         Backend {}
     }
 
-    /// Returns a GeoJSON polygon of a triangle of specified distance around a point.
-    #[wasm_bindgen(js_name = exampleCall)]
-    pub fn example_call(&self, input: JsValue) -> Result<String, JsValue> {
+    /// Add a property called 'color' to each feature in the input GeoJSON. The value is a random
+    /// colour from Rust's mascot, Ferris.
+    #[wasm_bindgen(js_name = addColours)]
+    pub fn add_colours(&self, input: JsValue) -> Result<String, JsValue> {
         // serde is used to parse a JSON object into a Rust struct
-        let req: ExampleRequest = serde_wasm_bindgen::from_value(input)?;
+        let gj: FeatureCollection = serde_wasm_bindgen::from_value(input)?;
+        let mut new_gj = gj.clone();
 
-        let center = Point::new(req.center[0], req.center[1]);
-        // Log statements will show up on the browser console
-        info!("Debugging to console log. Center point is {center:?}");
-        let triangle = Polygon::new(
-            LineString::new(vec![
-                center
-                    .haversine_destination(45., req.distance_meters)
-                    .into(),
-                center
-                    .haversine_destination(135., req.distance_meters)
-                    .into(),
-                center
-                    .haversine_destination(270., req.distance_meters)
-                    .into(),
-            ]),
-            Vec::new(),
-        );
-
-        let mut feature = Feature::from(Geometry::from(&triangle));
-        feature.set_property("key", "value");
+        // Perform your calculations here. You can extract this block into a separate crate too
+        let new_features: Vec<Feature> = gj
+            .features
+            .into_iter()
+            .map(|mut feat| {
+                let mut properties = match feat.properties {
+                    None => Map::new(),
+                    Some(p) => p.clone(),
+                };
+                properties.insert("color".to_string(), get_random_color().into());
+                feat.properties = Some(properties);
+                feat
+            })
+            .collect();
+        new_gj.features = new_features;
 
         // Except for a few primitive types, usually returning values from Rust happens by
         // serializing to JSON, and deserializing in worker.ts
-        serde_json::to_string(&feature).map_err(err_to_js)
+        serde_json::to_string(&new_gj).map_err(err_to_js)
     }
 }
 
@@ -73,20 +75,10 @@ fn err_to_js<E: std::fmt::Display>(err: E) -> JsValue {
     JsValue::from_str(&err.to_string())
 }
 
-#[derive(Deserialize)]
-struct ExampleRequest {
-    center: [f64; 2],
-    distance_meters: f64,
-}
-
 // This is just a toy example of a long, blocking operation. By using the Timer, progress updates
 // can be displayed
-fn load_something(input_bytes: &[u8], mut timer: Timer) {
+fn initialise(mut timer: Timer) {
     for step in 0..10 {
         timer.step(format!("do something, step {step}"));
-        let mut sum: u64 = 0;
-        for x in input_bytes {
-            sum = sum.overflowing_add(*x as u64).0;
-        }
     }
 }

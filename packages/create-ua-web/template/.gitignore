@@ -4,3 +4,6 @@ test-results/
 *.DS_Store
 package-lock.json
 .svelte-kit/
+
+# Generate via `pnpm python`
+template_app/static/*.whl

@@ -1,0 +1,6 @@
+[project]
+name = "my_python_module"
+version = "0.0.1"
+dependencies = [
+    "haversine>=2.8.1",
+]

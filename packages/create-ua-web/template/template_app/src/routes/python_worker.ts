@@ -1,63 +1,65 @@
 import * as Comlink from "comlink";
 import { loadPyodide, type PyodideInterface } from "pyodide";
-import type { Position, Feature, Polygon } from "geojson";
+import type { FeatureCollection } from "geojson";
 
 // This is glue to call the Python backend asynchronously in a web worker, off the main browser thread
 
-export class Backend {
+export class PythonBackend {
   pyodide: PyodideInterface | null;
-  // The stateful Python object
-  backend: any | null;
+  // The top-level URL of the website we're serving
+  pathname: string;
 
   constructor() {
     this.pyodide = null;
-    this.backend = null;
+    this.pathname = "";
   }
 
-  async loadInput(inputBytes: Uint8Array, progressCb: (msg: string) => void) {
-    progressCb("Loading pyodide");
+  async initialise(pathname: string) {
+    // progressCb("Loading pyodide");
     // Use the pyodide CDN to fetch other packages. Most scripts only need a
     // few, and hosting all of them on GH Pages is expensive.
     this.pyodide = await loadPyodide({
       indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.1/full/",
     });
+    this.pathname = pathname;
 
     // Setup packages
-    progressCb("Installing haversine through micropip");
     await this.pyodide.loadPackage("micropip");
-    let micropip = this.pyodide.pyimport("micropip");
-    await micropip.install("haversine");
-
-    // Load the backend code from a file
-    // TODO Probably build a wheel instead: https://pyodide.org/en/stable/usage/loading-custom-python-code.html
-    progressCb("Downloading backend code");
-    let resp = await fetch("/backend.py");
-    let contents = await resp.text();
-    this.pyodide.runPython(contents);
-
-    progressCb("Constructing the backend object with the input");
-    this.backend = this.pyodide.globals.get("Backend")(inputBytes);
-  }
-
-  unset() {
-    this.backend = null;
+    const micropip = this.pyodide.pyimport("micropip");
+    // TODO: Figure out how to not hardcode the wheel filename
+    await micropip.install(
+      this.pathname + "my_python_module-0.0.1-py3-none-any.whl",
+    );
+    console.log(micropip.list());
   }
 
   isLoaded(): boolean {
-    return this.pyodide != null && this.backend != null;
+    return this.pyodide != null;
   }
 
-  exampleCall(req: {
-    center: [number, number];
-    distanceMeters: number;
-  }): Feature<Polygon> {
+  addColours(gj: FeatureCollection): FeatureCollection {
     if (!this.pyodide) {
-      throw new Error("Backend used before ready");
+      throw new Error("Python backend not initialised");
     }
-
-    let result = this.backend.exampleCall(req.center, req.distanceMeters);
-    return JSON.parse(result);
+    // It seems easiest to pass strings to and from Python. You can try to
+    // use this.pyodide.toPy(some_js_object) when sending a variable to
+    // Python, and do result.toJs() to try to extract it, but the type
+    // conversions don't always work out.
+    this.pyodide.globals.set("input_gj_string", JSON.stringify(gj));
+    const code = `
+            from my_python_module import add_colours
+            import json
+            json.dumps(add_colours(json.loads(input_gj_string)))
+        `;
+    // This inspects the code and loads any packages that are needed to run
+    // it
+    this.pyodide.loadPackagesFromImports(code);
+    // This runs the code. The last line is the return value (just like in a
+    // notebook).
+    const result = this.pyodide.runPython(code);
+    console.log("PythonBackend.addColours result", result);
+    return JSON.parse(result) as FeatureCollection;
   }
 }
 
-Comlink.expose(Backend);
+Comlink.expose(PythonBackend);
