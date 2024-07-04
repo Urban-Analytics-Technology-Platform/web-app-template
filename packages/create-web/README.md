@@ -1,15 +1,13 @@
 # create-ua-web
 
-Node package which sets up (in a new directory) a web template.
+A node package which sets up an Urban Analytics web app for you, based on our in-house template.
 
 ## Run locally
 
-`cd` to this directory (`packages/create-ua-web`), then
+`cd` to this directory (`packages/create-web`), then
 
     npm exec .
 
-## In the future, you can do:
+## Or run the version on npm:
 
-    npm create ua-web@latest
-
-(Although we have to publish this package to the npm registry first.)
+    npm create @uatp/web:latest
