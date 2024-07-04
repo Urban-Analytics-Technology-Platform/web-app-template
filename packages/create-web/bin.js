@@ -13,7 +13,7 @@ p.note(
 )
 
 // Determine working directory
-let cwd: string = process.argv[2];
+let cwd = process.argv[2];
 if (cwd === undefined) {
     cwd = exitIfCancelled(await p.text({
         message: '📂 Which directory do you want to create your project in? (leave blank to use current directory)',
@@ -38,18 +38,18 @@ if (isDirectory(cwd)) {
 }
 
 // Prompt for project name
-const projectName: string = exitIfCancelled(await p.text({
+const projectName = exitIfCancelled(await p.text({
     message: '🗺️ What is the name of your project?',
     placeholder: 'my-cool-ua-project',
     initialValue: resolve(cwd).split("/").pop(),
-    validate(value: string) {
+    validate(value) {
         if (value.length === 0) return `Value is required!`;
     },
 }));
 if (projectName === undefined) process.exit(0);
 
 // Prompt for Rust/Python backends
-const backendLanguage: "rust" | "python" | "none" = exitIfCancelled(await p.select({
+const backendLanguage = exitIfCancelled(await p.select({
     message: '🧑‍💻 Would you like your web app to use additional languages?',
     options: [
         { value: "rust", label: 'Yes, Rust 🦀' },
@@ -67,7 +67,7 @@ p.outro(`🚀 Your new project '${projectName}' has been successfully set up!`)
 
 /// Utility functions
 
-function isDirectory(path: string) {
+function isDirectory(path) {
     try {
         return fs.lstatSync(path).isDirectory();
     } catch (e) {
@@ -76,7 +76,7 @@ function isDirectory(path: string) {
     }
 }
 
-function exitIfCancelled<T>(result: T | symbol): T {
+function exitIfCancelled(result) {
     if (p.isCancel(result)) {
         process.exit(0);
     }

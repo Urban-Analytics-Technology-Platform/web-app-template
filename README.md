@@ -93,19 +93,21 @@ If the library changes: `pnpm build`
 
 Note that you have to build the library before you can see changes in the template app.
 
-### `uatp_template` template app
+### `@uatp/template` template app
 
 If the dependencies change: `pnpm install`
 
-If any code in the Rust backend is changed: `pnpm wasm`.
+If any code in the Rust backend is changed: `pnpm rust`.
 (You will have to restart your dev server if it's running.)
+
+If any code in the Python backend is changed: `pnpm python`.
 
 To run the template app locally (which'll auto-reload any Svelte/TS changes within, but not Rust changes): `pnpm dev`
 
-### `create-ua-web` script
+### `@uatp/create-web` script
 
 If the dependencies change: `pnpm install`
 
 To run the script: `npm exec .`
 
-(Note that you don't need to run `pnpm build` for this package. There is a single build step, which is to compile the TypeScript to JavaScript; however, that's automated as part of the preinstall step. Every time you do `npm exec .` that will be automatically run for you. If for any reason you want to manually compile, you can do `pnpm exec tsc`.)
+(There's no build step for this script.)

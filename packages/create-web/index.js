@@ -3,9 +3,10 @@ import fs from "node:fs";
 import { fileURLToPath } from 'node:url';
 
 export function setupTemplate(
-    dstDir: string,
-    projectName: string,
-    backendLanguage: "python" | "rust" | "none"): void {
+    dstDir, // string
+    projectName, // string
+    backendLanguage, // "python" | "rust" | "none"
+) {
 
     const pathToTemplate = path.join(
         path.dirname(path.dirname(fileURLToPath(import.meta.url))),
@@ -18,7 +19,6 @@ export function setupTemplate(
         path.join(dstDir, "template_app"),
         { recursive: true },
     );
-    // TODO: Modify code inside template_app according to comments
 
     // Copy appropriate backend folder
     if (backendLanguage === "rust") {
@@ -54,20 +54,13 @@ export function setupTemplate(
 }
 
 
-interface PackageJson {
-    name: string;
-    scripts: Record<string, string>;
-    dependencies: Record<string, string>;
-    devDependencies: Record<string, string>;
-}
-
 function patchWrapper(
-    dstDir: string,
-    backendLanguage: "python" | "rust" | "none",
-    fileNameRel: string,
-    magicCommentRgx: RegExp,
-    uncommentFunc: (line: string) => string,
-): void {
+    dstDir,  // string
+    backendLanguage, // "python" | "rust" | "none"
+    fileNameRel, // string
+    magicCommentRgx, // RegExp
+    uncommentFunc, // (line: string) => string
+) { // -> void
     const dstPath = path.join(dstDir, fileNameRel);
     const lines = fs.readFileSync(dstPath, "utf8").split("\n");
     const patchedLines = patch(lines, backendLanguage, fileNameRel, magicCommentRgx, uncommentFunc);
@@ -75,12 +68,12 @@ function patchWrapper(
 }
 
 function patch(
-    inputLines: string[],
-    backendLanguage: "python" | "rust" | "none",
-    fileName: string,
-    magicCommentRgx: RegExp,
-    uncommentFunc: (line: string) => string
-): string[] {
+    inputLines, // string[]
+    backendLanguage, // "python" | "rust" | "none"
+    fileNameRel, // string
+    magicCommentRgx, // RegExp
+    uncommentFunc, // (line: string) => string
+) { // -> string[]
     // This function generates a state machine which traverses the file line by
     // line. When it encounters a line that contains only the comment:
     //
@@ -104,9 +97,9 @@ function patch(
     //              required for all cases, and is the default state.
     //
     // The filename argument is used only for error messages.
-    let state: "template" | "python" | "rust" | "none" | "normal" = "normal";
+    let state = "normal";
 
-    const outputLines: string[] = [];
+    const outputLines = [];
     let lineNum = 0;
     for (const line of inputLines) {
         lineNum++;
@@ -120,7 +113,7 @@ function patch(
                 // be included in the output
                 continue;
             } else {
-                throw new Error(`Invalid state: '${newState}' in ${fileName}:${lineNum}`);
+                throw new Error(`Invalid state: '${newState}' in ${fileNameRel}:${lineNum}`);
             }
         }
 
@@ -149,23 +142,26 @@ function patch(
     }
     // If we reach the end of the file while in a special state, that's an error
     if (state !== "normal") {
-        throw new Error(`Unexpected end of file while in state '${state}' in ${fileName}`);
+        throw new Error(`Unexpected end of file while in state '${state}' in ${fileNameRel}`);
     }
 
     return outputLines
 }
 
 
-function patchPackageJson(packageJson: PackageJson, projectName: string, backendLanguage: "python" | "rust" | "none"): PackageJson {
+function patchPackageJson(
+    packageJson, // object (parsed package.json)
+    projectName, // string, 
+    backendLanguage, // "python" | "rust" | "none"
+) { // -> object
     // Fix project name
     packageJson.name = projectName;
 
     // Fix scripts
-    const scripts: Map<string, string> = new Map(Object.entries(packageJson.scripts));
+    const scripts = new Map(Object.entries(packageJson.scripts)); // Map<string, string>
     const prefix = `@@${backendLanguage} `;  // Note the space at the end
     // Override any entries that start with the prefix
-    const entriesToOverride: [string, string][] = [...scripts.entries()]
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const entriesToOverride = [...scripts.entries()]
         .filter(([key, _]) => key.startsWith(prefix))
         .map(([key, val]) => [key.slice(prefix.length), val]);
     for (const [key, val] of entriesToOverride) {
@@ -193,12 +189,12 @@ function patchPackageJson(packageJson: PackageJson, projectName: string, backend
 
 // Comment functions for TypeScript
 const magicCommentRgxTs = /^\/\/ @@([a-z]+)$/;
-function uncommentTs(line: string): string {
+function uncommentTs(line) {
     return line.replace(/^(\s*)\/\/ (.*)$/, "$1$2");
 }
 
 // Comment functions for HTML
 const magicCommentRgxHtml = /^<!-- @@([a-z]+) -->$/;
-function uncommentHtml(line: string): string {
+function uncommentHtml(line) {
     return line.replace(/^(\s*)<!-- (.*) -->$/, "$1$2");
 }

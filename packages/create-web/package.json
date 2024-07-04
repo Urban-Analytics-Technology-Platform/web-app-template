@@ -2,19 +2,14 @@
   "name": "@uatp/create-web",
   "version": "0.0.1",
   "description": "spin up a web app with the UATP template",
-  "bin": "dist/bin.js",
-  "main": "dist/index.js",
+  "bin": "bin.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "preinstall": "tsc",
     "test": "echo \"NO TESTS YET\" || true"
   },
   "author": "The Alan Turing Institute",
   "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^20.14.9",
-    "typescript": "^5.5.3"
-  },
   "dependencies": {
     "@clack/prompts": "^0.7.0"
   }
