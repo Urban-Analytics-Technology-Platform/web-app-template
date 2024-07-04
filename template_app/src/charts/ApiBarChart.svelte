@@ -6,6 +6,8 @@
   export let title: string;
 
   let data: any;
+  let canvas: HTMLCanvasElement;
+
   onMount(async () => {
     data = await getAquisitionsByYear();
     const options: any = {
@@ -31,14 +33,18 @@
         ],
       },
     };
-    new Chart(
-      (document.getElementById("myCanvas") as HTMLCanvasElement).getContext(
-        "2d",
-      )!,
-      options,
-    );
+    new Chart(canvas.getContext("2d")!, options);
   });
 </script>
 
+<!--
+Best practice aims to use actions (see: https://learn.svelte.dev/tutorial/actions)
+but since the API call will not provide the data immediately, we use `onMount` in the
+TypeScript above and `bind:this{canvas}` below. `bind:this{canvas}` is preferable to
+using `id` as another component could have the same named `id`.
+
+See the non-API ./BarChart.svelte example demonstrating the use of
+actions instead.
+-->
 <h3>{title}</h3>
-<canvas id="myCanvas" style="width: 100%; height: 200px;"></canvas>
+<canvas bind:this={canvas} style="width: 100%; height: 200px;"></canvas>

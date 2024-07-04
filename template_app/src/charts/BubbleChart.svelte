@@ -9,6 +9,7 @@
   export let title: string;
 
   let chartInstance;
+  let canvas: HTMLCanvasElement;
 
   onMount(async () => {
     Chart.register(...registerables, zoomPlugin);
@@ -60,11 +61,9 @@
       },
     };
 
-    let canvas = document.getElementById("bubbleCanvas") as HTMLCanvasElement;
-
     chartInstance = new Chart(canvas.getContext("2d")!, options);
   });
 </script>
 
 <h3>{title}</h3>
-<canvas id="bubbleCanvas" style="width: 100%; height: 400px;"></canvas>
+<canvas bind:this={canvas} style="width: 100%; height: 400px;"></canvas>
