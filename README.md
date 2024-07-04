@@ -2,7 +2,7 @@
 
 This repo contains several packages:
 
-- `ua-components`: A library providing a set of Svelte components for building Urban Analytics web applications
+- `@uatp/components`: A library providing a set of Svelte components for building Urban Analytics web applications
 - `uatp_template`: A template which can be used as a starting point for new web apps
   - The sample app is deployed at <https://urban-analytics-technology-platform.github.io/web-app-template/>
   - The app comes with sample Rust and Python 'backends' which can be used with the app template
@@ -73,7 +73,7 @@ The first time you clone this repository, run from the top-level directory:
 
 ```bash
 pnpm install
-pnpm --filter ua-components build
+pnpm --filter @uatp/components build
 pnpm --filter uatp_template wasm
 pnpm --filter uatp_template build
 ```
@@ -85,7 +85,7 @@ If you are already in the same directory as the package you want to run a comman
 In each of the subsequent sections, it is assumed that you are in the directory of the corresponding packages.
 If you are not, you can always run the command with the `--filter` flag.
 
-### `ua-components` library
+### `@uatp/components` library
 
 If the dependencies change: `pnpm install`
 

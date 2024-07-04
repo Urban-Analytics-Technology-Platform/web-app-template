@@ -1,6 +1,6 @@
 {
   "name": "web-app-template-monorepo",
   "version": "0.0.1",
-  "description": "monorepo for create-ua-web and ua-components",
+  "description": "monorepo for create-ua-web and @uatp/components",
   "private": true
 }

@@ -23,6 +23,9 @@ importers:
 
   packages/create-ua-web/template/template_app:
     dependencies:
+      '@uatp/components':
+        specifier: workspace:*
+        version: link:../../../ua_components
       comlink:
         specifier: ^4.4.1
         version: 4.4.1
@@ -38,9 +41,6 @@ importers:
       svelte-maplibre:
         specifier: git+https://github.com/dabreegster/svelte-maplibre.git#svelte5
         version: https://codeload.github.com/dabreegster/svelte-maplibre/tar.gz/a8c8c9c60d63b71911cef6cfe3cfa1921d123966(svelte@5.0.0-next.172)
-      ua-components:
-        specifier: workspace:*
-        version: link:../../../ua_components
     devDependencies:
       '@playwright/test':
         specifier: ^1.28.1

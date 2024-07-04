@@ -1,7 +1,14 @@
 <script lang="ts">
   import type { FeatureCollection } from "geojson";
-  import { SplitComponent } from "ua-components/two_column_layout";
+  import { Loading } from "@uatp/components";
+  import { SplitComponent } from "@uatp/components/two_column_layout";
+  // @@template
   import { mode, rustBackend, rustIsLoaded, pythonBackend } from "./globals";
+  // @@rust
+  // import { mode, rustBackend, rustIsLoaded } from "./globals";
+  // @@python
+  // import { mode, pythonBackend } from "./globals";
+  // @@normal
   import { GeoJSON, FillLayer, LineLayer } from "svelte-maplibre";
 
   let gj: FeatureCollection = {
@@ -9,58 +16,49 @@
     features: [],
   };
 
+  let loadingMessages: string[] = [];
   let fileInput: HTMLInputElement;
-  // @@start template
-  async function colourWithRust() {
-    try {
+
+  async function getFileContents(): Promise<string> {
       let file = fileInput.files![0];
       if (!file) {
         throw new Error("Please select a file first.");
       }
-      const reader = new FileReader();
-      reader.readAsText(file);
-      reader.addEventListener("loadend", async () => {
-        if (!reader.result) {
-          throw new Error("Couldn't read the file.");
+      return file.text();
+  }
+
+  // @@template
+  async function colourWithRust() {
+    try {
+        const contents = await getFileContents();
+        const loaded = await $rustBackend!.isLoaded();
+        if (!loaded) {
+            await $rustBackend!.initialise();
         }
-        await $rustBackend!.initialise();
         const new_gj = await $rustBackend!.addColours(
-          JSON.parse(reader.result),
+          JSON.parse(contents),
         );
         gj = new_gj;
-      });
     } catch (err) {
-      window.alert(`Couldn't open this file: ${err}`);
+      window.alert(`Failed to open file: ${err}`);
     }
   }
   async function colourWithPython() {
     try {
-      let file = fileInput.files![0];
-      if (!file) {
-        throw new Error("Please select a file first.");
-      }
-      const reader = new FileReader();
-      reader.readAsText(file);
-      reader.addEventListener("loadend", async () => {
-        if (!reader.result) {
-          throw new Error("Couldn't read the file.");
-        }
+        const contents = await getFileContents();
         const loaded = await $pythonBackend!.isLoaded();
         if (!loaded) {
           await $pythonBackend!.initialise(window.location.pathname);
         }
         const new_gj = await $pythonBackend!.addColours(
-          JSON.parse(reader.result as string),
+          JSON.parse(contents),
         );
-        console.log("new_gj", new_gj);
         gj = new_gj;
-      });
     } catch (err) {
-      window.alert(`Couldn't open this file: ${err}`);
+      window.alert(`Failed to open file: ${err}`);
     }
   }
-  // @@end template
-  // @@start rust
+  // @@rust
   // async function colourWithRust() {
   //   try {
   //     let file = fileInput.files![0];
@@ -79,9 +77,23 @@
   //     window.alert(`Couldn't open this file: ${err}`);
   //   }
   // }
-  // @@end rust
-  // @@start python
-  // @@end python
+  // @@python
+  // async function colourWithPython() {
+  //   try {
+  //       const contents = await getFileContents();
+  //       const loaded = await $pythonBackend!.isLoaded();
+  //       if (!loaded) {
+  //         await $pythonBackend!.initialise(window.location.pathname);
+  //       }
+  //       const new_gj = await $pythonBackend!.addColours(
+  //         JSON.parse(contents),
+  //       );
+  //       gj = new_gj;
+  //   } catch (err) {
+  //     window.alert(`Failed to open file: ${err}`);
+  //   }
+  // }
+  // @@normal
 
   async function resetMode() {
     await $rustBackend!.unset();
@@ -106,8 +118,14 @@
     <p>and colour it with...</p>
 
     <p>
+      <!-- @@template -->
       <button on:click={() => colourWithRust()}>Rust! 🦀</button>
       <button on:click={() => colourWithPython()}>Python! 🐍</button>
+      <!-- @@rust -->
+      <!-- <button on:click={() => colourWithRust()}>Rust! 🦀</button> -->
+      <!-- @@python -->
+      <!-- <button on:click={() => colourWithPython()}>Python! 🐍</button> -->
+      <!-- @@normal -->
     </p>
 
     <p><button on:click={resetMode}>Back to Title Mode</button></p>
@@ -123,3 +141,5 @@
     </GeoJSON>
   </div>
 </SplitComponent>
+
+<Loading loading={loadingMessages} />

@@ -3,44 +3,39 @@
 import type { Map } from "maplibre-gl";
 import { writable, type Writable } from "svelte/store";
 import * as Comlink from "comlink";
-// @@start template
+// @@template
 import { type RustBackend } from "./rust_worker";
 import { type PythonBackend } from "./python_worker";
-// @@end template
-// @@start rust
+// @@rust
 // import { type RustBackend } from "./rust_worker";
-// @@end rust
-// @@start python
+// @@python
 // import { type PythonBackend } from "./python_worker";
-// @@end python
+// @@normal
 
 // Using the MapLibre map directly isn't needed often; try to use
 // svelte-maplibre components inside the "map" slot
 export const map: Writable<Map | null> = writable(null);
 
 // This is the way to call the backend
-// @@start template
+// @@template
 export const rustBackend: Writable<Comlink.Remote<RustBackend> | null> =
   writable(null);
 export const pythonBackend: Writable<Comlink.Remote<PythonBackend> | null> =
   writable(null);
-// Indicates the backend has a file loaded and is ready
 export const rustIsLoaded = writable(false);
 export const pythonIsLoaded = writable(false);
-// @@end template
-// @@start rust
+// @@rust
 // export const rustBackend: Writable<Comlink.Remote<RustBackend> | null> = writable(null);
 // // Indicates the backend has a file loaded and is ready
 // export const rustIsLoaded = writable(false);
-// @@end rust
-// @@start python
+// @@python
 // export const pythonBackend: Writable<Comlink.Remote<PythonBackend> | null> = writable(null);
 // // Indicates the backend has a file loaded and is ready
 // export const pythonIsLoaded = writable(false);
-// @@end python
+// @@normal
 
 // Your app should be organized into distinct modes (think of as distinct pages
 // of a site, sharing the same layout). These can have parameters by adding
 // fields to each case.
-export type Mode = { kind: "title" } | { kind: "triangle" };
+export type Mode = { kind: "title" } | { kind: "colour" };
 export const mode: Writable<Mode> = writable({ kind: "title" });

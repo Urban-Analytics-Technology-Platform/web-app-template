@@ -3,37 +3,30 @@
     Layout,
     mapContents,
     sidebarContents,
-  } from "ua-components/two_column_layout";
+  } from "@uatp/components/two_column_layout";
   import { MapLibre } from "svelte-maplibre";
   import TitleMode from "./TitleMode.svelte";
-  import TriangleMode from "./TriangleMode.svelte";
-  // @@start template
-  import { map as mapStore, rustBackend, pythonBackend, mode } from "./globals";
-  // @@end template
-  // @@start rust
-  // import { map as mapStore, rustBackend, mode } from "./globals";
-  // @@end rust
-  // @@start python
-  // import { map as mapStore, pythonBackend, mode } from "./globals";
-  // @@end python
+  import ColourMode from "./ColourMode.svelte";
 
-  import * as Comlink from "comlink";
   import { onMount } from "svelte";
   import type { Map } from "maplibre-gl";
-  // @@start template
+  import * as Comlink from "comlink";
+
+  // @@template
+  import { map as mapStore, rustBackend, pythonBackend, mode } from "./globals";
   import rustWorkerWrapper from "./rust_worker?worker";
   import { type RustBackend } from "./rust_worker";
   import pythonWorkerWrapper from "./python_worker?worker";
   import { type PythonBackend } from "./python_worker";
-  // @@end template
-  // @@start rust
-  // import workerWrapper from "./rust_worker?worker";
-  // import { type Backend } from "./rust_worker";
-  // @@end rust
-  // @@start python
-  // import workerWrapper from "./python_worker?worker";
-  // import { type Backend } from "./python_worker";
-  // @@end python
+  // @@rust
+  // import { map as mapStore, rustBackend, mode } from "./globals";
+  // import rustWorkerWrapper from "./rust_worker?worker";
+  // import { type RustBackend } from "./rust_worker";
+  // @@python
+  // import { map as mapStore, pythonBackend, mode } from "./globals";
+  // import pythonWorkerWrapper from "./python_worker?worker";
+  // import { type PythonBackend } from "./python_worker";
+  // @@normal
 
   // Everything in this script section is boilerplate; you can ignore it
 
@@ -47,6 +40,7 @@
     //
     // Note this should work fine in older browsers when doing 'npm run build'.
     // It's only a problem during local dev mode.
+    // @@template
     interface RustWorkerConstructor {
       new (): RustBackend;
     }
@@ -55,7 +49,6 @@
     );
     let rustBackendWorker = await new MyRustWorker();
     rustBackend.set(rustBackendWorker);
-
     interface PythonWorkerConstructor {
       new (): PythonBackend;
     }
@@ -63,6 +56,24 @@
       Comlink.wrap(new pythonWorkerWrapper());
     let pythonBackendWorker = await new MyPythonWorker();
     pythonBackend.set(pythonBackendWorker);
+    // @@rust
+    // interface RustWorkerConstructor {
+    //   new (): RustBackend;
+    // }
+    // const MyRustWorker: Comlink.Remote<RustWorkerConstructor> = Comlink.wrap(
+    //   new rustWorkerWrapper(),
+    // );
+    // let rustBackendWorker = await new MyRustWorker();
+    // rustBackend.set(rustBackendWorker);
+    // @@python
+    // interface PythonWorkerConstructor {
+    //   new (): PythonBackend;
+    // }
+    // const MyPythonWorker: Comlink.Remote<PythonWorkerConstructor> =
+    //   Comlink.wrap(new pythonWorkerWrapper());
+    // let pythonBackendWorker = await new MyPythonWorker();
+    // pythonBackend.set(pythonBackendWorker);
+    // @@normal
   });
 
   let map: Map | undefined = undefined;
@@ -99,8 +110,8 @@
       <!-- When you define new modes, you have to wire them up here -->
       {#if $mode.kind == "title"}
         <TitleMode />
-      {:else if $mode.kind == "triangle"}
-        <TriangleMode />
+      {:else if $mode.kind == "colour"}
+        <ColourMode />
       {/if}
     </MapLibre>
   </div>
