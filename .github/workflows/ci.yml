@@ -36,16 +36,16 @@ jobs:
           pnpm --filter=@uatp/components build
           pnpm --filter=@uatp/components test
 
-      - name: Test uatp_template
+      - name: Test @uatp/template
         run: |
-          pnpm --filter=uatp_template rust
-          pnpm --filter=uatp_template python
-          pnpm --filter=uatp_template build
-          pnpm --filter=uatp_template test
+          pnpm --filter=@uatp/template rust
+          pnpm --filter=@uatp/template python
+          pnpm --filter=@uatp/template build
+          pnpm --filter=@uatp/template test
 
-      - name: Test create-ua-web
+      - name: Test @uatp/create-web
         run: |
-          pnpm --filter=create-ua-web test
+          pnpm --filter=@uatp/create-web test
 
 
   pre-commit:

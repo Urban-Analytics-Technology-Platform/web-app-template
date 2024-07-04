@@ -6,7 +6,7 @@ This repo contains several packages:
 - `uatp_template`: A template which can be used as a starting point for new web apps
   - The sample app is deployed at <https://urban-analytics-technology-platform.github.io/web-app-template/>
   - The app comes with sample Rust and Python 'backends' which can be used with the app template
-- `create-ua-web`: A script which generates a new web app for you using the template
+- `@uatp/create-web`: A script which generates a new web app for you using the template
 
 
 ## User guide
@@ -22,7 +22,7 @@ Right now, the UA web template is not yet on the NPM registry, so you'll need to
 
 ```bash
 git clone https://github.com/Urban-Analytics-Technology-Platform/web-app-template.git
-cd web-app-template/packages/create-ua-web
+cd web-app-template/packages/create-web
 ```
 
 Then, run the following commands:
@@ -35,7 +35,7 @@ pnpm exec dist/bin.js
 In the future, when this template is on the NPM registry, you will be able to just run the following command, or something like that:
 
 ```bash
-npm create @uatp/ua-web   # does not work yet!
+npm create @uatp/web
 ```
 
 ### Working with your new app
@@ -54,10 +54,10 @@ If you are looking to _develop_ the UA web template, i.e. make changes to the co
 
 ### Overview of repository structure
 
-- `packages/ua_components`: reusable Svelte components for Urban Analytics apps
+- `packages/components`: reusable Svelte components for Urban Analytics apps
   - This is set up as a SvelteKit project in library mode. `routes` (the demo site associated with the library) is currently unused, but could be used to demonstrate the components
-- `packages/create-ua-web`: a script which generates a new web app in a user-specified location from the template
-- `packages/create-ua-web/template/template_app`: the template itself
+- `packages/create-web`: a script which generates a new web app in a user-specified location from the template
+- `packages/create-web/template/template_app`: the template itself
   - This directory contains a SvelteKit app using the static adaptor -- it builds to a set of statically hosted files, with no backend server. It uses [svelte-maplibre](https://github.com/dimfeld/svelte-maplibre/) for declaratively managing the map.
   - At the same level as this directory are `rust_backend` and `python_backend`, which are two "backends" that are compiled to WASM and run locally in the browser. The WASM code runs in a web worker (off the main browser thread), and all interaction is done through async calls using [Comlink](https://github.com/GoogleChromeLabs/comlink).
 

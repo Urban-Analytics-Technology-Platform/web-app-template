@@ -8,7 +8,70 @@ importers:
 
   .: {}
 
-  packages/create-ua-web:
+  packages/components:
+    devDependencies:
+      '@playwright/test':
+        specifier: ^1.28.1
+        version: 1.45.1
+      '@sveltejs/adapter-auto':
+        specifier: ^3.0.0
+        version: 3.2.2(@sveltejs/kit@2.5.18(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.172)(vite@5.3.3(@types/node@20.14.9)))(svelte@5.0.0-next.172)(vite@5.3.3(@types/node@20.14.9)))
+      '@sveltejs/kit':
+        specifier: ^2.0.0
+        version: 2.5.18(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.172)(vite@5.3.3(@types/node@20.14.9)))(svelte@5.0.0-next.172)(vite@5.3.3(@types/node@20.14.9))
+      '@sveltejs/package':
+        specifier: ^2.0.0
+        version: 2.3.2(svelte@5.0.0-next.172)(typescript@5.5.3)
+      '@sveltejs/vite-plugin-svelte':
+        specifier: ^3.0.0
+        version: 3.1.1(svelte@5.0.0-next.172)(vite@5.3.3(@types/node@20.14.9))
+      '@types/eslint':
+        specifier: ^8.56.0
+        version: 8.56.0
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^7.0.0
+        version: 7.15.0(@typescript-eslint/parser@7.15.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0)(typescript@5.5.3)
+      '@typescript-eslint/parser':
+        specifier: ^7.0.0
+        version: 7.15.0(eslint@8.57.0)(typescript@5.5.3)
+      eslint:
+        specifier: ^8.56.0
+        version: 8.57.0
+      eslint-config-prettier:
+        specifier: ^9.1.0
+        version: 9.1.0(eslint@8.57.0)
+      eslint-plugin-svelte:
+        specifier: ^2.36.0-next.4
+        version: 2.41.0(eslint@8.57.0)(svelte@5.0.0-next.172)
+      prettier:
+        specifier: ^3.1.1
+        version: 3.3.2
+      prettier-plugin-svelte:
+        specifier: ^3.1.2
+        version: 3.2.5(prettier@3.3.2)(svelte@5.0.0-next.172)
+      publint:
+        specifier: ^0.1.9
+        version: 0.1.16
+      svelte:
+        specifier: ^5.0.0-next.1
+        version: 5.0.0-next.172
+      svelte-check:
+        specifier: ^3.6.0
+        version: 3.8.4(postcss-load-config@3.1.4(postcss@8.4.39))(postcss@8.4.39)(svelte@5.0.0-next.172)
+      tslib:
+        specifier: ^2.4.1
+        version: 2.6.3
+      typescript:
+        specifier: ^5.0.0
+        version: 5.5.3
+      vite:
+        specifier: ^5.0.11
+        version: 5.3.3(@types/node@20.14.9)
+      vitest:
+        specifier: ^1.2.0
+        version: 1.6.0(@types/node@20.14.9)
+
+  packages/create-web:
     dependencies:
       '@clack/prompts':
         specifier: ^0.7.0
@@ -21,11 +84,11 @@ importers:
         specifier: ^5.5.3
         version: 5.5.3
 
-  packages/create-ua-web/template/template_app:
+  packages/create-web/template/template_app:
     dependencies:
       '@uatp/components':
         specifier: workspace:*
-        version: link:../../../ua_components
+        version: link:../../../components
       comlink:
         specifier: ^4.4.1
         version: 4.4.1
@@ -99,69 +162,6 @@ importers:
       vite-plugin-wasm-pack:
         specifier: 0.1.11
         version: 0.1.11
-      vitest:
-        specifier: ^1.2.0
-        version: 1.6.0(@types/node@20.14.9)
-
-  packages/ua_components:
-    devDependencies:
-      '@playwright/test':
-        specifier: ^1.28.1
-        version: 1.45.1
-      '@sveltejs/adapter-auto':
-        specifier: ^3.0.0
-        version: 3.2.2(@sveltejs/kit@2.5.18(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.172)(vite@5.3.3(@types/node@20.14.9)))(svelte@5.0.0-next.172)(vite@5.3.3(@types/node@20.14.9)))
-      '@sveltejs/kit':
-        specifier: ^2.0.0
-        version: 2.5.18(@sveltejs/vite-plugin-svelte@3.1.1(svelte@5.0.0-next.172)(vite@5.3.3(@types/node@20.14.9)))(svelte@5.0.0-next.172)(vite@5.3.3(@types/node@20.14.9))
-      '@sveltejs/package':
-        specifier: ^2.0.0
-        version: 2.3.2(svelte@5.0.0-next.172)(typescript@5.5.3)
-      '@sveltejs/vite-plugin-svelte':
-        specifier: ^3.0.0
-        version: 3.1.1(svelte@5.0.0-next.172)(vite@5.3.3(@types/node@20.14.9))
-      '@types/eslint':
-        specifier: ^8.56.0
-        version: 8.56.10
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^7.0.0
-        version: 7.15.0(@typescript-eslint/parser@7.15.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0)(typescript@5.5.3)
-      '@typescript-eslint/parser':
-        specifier: ^7.0.0
-        version: 7.15.0(eslint@8.57.0)(typescript@5.5.3)
-      eslint:
-        specifier: ^8.56.0
-        version: 8.57.0
-      eslint-config-prettier:
-        specifier: ^9.1.0
-        version: 9.1.0(eslint@8.57.0)
-      eslint-plugin-svelte:
-        specifier: ^2.36.0-next.4
-        version: 2.41.0(eslint@8.57.0)(svelte@5.0.0-next.172)
-      prettier:
-        specifier: ^3.1.1
-        version: 3.3.2
-      prettier-plugin-svelte:
-        specifier: ^3.1.2
-        version: 3.2.5(prettier@3.3.2)(svelte@5.0.0-next.172)
-      publint:
-        specifier: ^0.1.9
-        version: 0.1.16
-      svelte:
-        specifier: ^5.0.0-next.1
-        version: 5.0.0-next.172
-      svelte-check:
-        specifier: ^3.6.0
-        version: 3.8.4(postcss-load-config@3.1.4(postcss@8.4.39))(postcss@8.4.39)(svelte@5.0.0-next.172)
-      tslib:
-        specifier: ^2.4.1
-        version: 2.6.3
-      typescript:
-        specifier: ^5.0.0
-        version: 5.5.3
-      vite:
-        specifier: ^5.0.11
-        version: 5.3.3(@types/node@20.14.9)
       vitest:
         specifier: ^1.2.0
         version: 1.6.0(@types/node@20.14.9)
@@ -552,9 +552,6 @@ packages:
 
   '@types/eslint@8.56.0':
     resolution: {integrity: sha512-FlsN0p4FhuYRjIxpbdXovvHQhtlG05O1GG/RNWvdAxTboR438IOTwmrY/vLA+Xfgg06BTkP045M3vpFwTMv1dg==}
-
-  '@types/eslint@8.56.10':
-    resolution: {integrity: sha512-Shavhk87gCtY2fhXDctcfS3e6FdxWkCx1iUZ9eEUbh7rTqlZT0/IzOkCOVt0fCjcFuZ9FPYfuezTBImfHCDBGQ==}
 
   '@types/estree@1.0.5':
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
@@ -2323,11 +2320,6 @@ snapshots:
   '@types/cookie@0.6.0': {}
 
   '@types/eslint@8.56.0':
-    dependencies:
-      '@types/estree': 1.0.5
-      '@types/json-schema': 7.0.15
-
-  '@types/eslint@8.56.10':
     dependencies:
       '@types/estree': 1.0.5
       '@types/json-schema': 7.0.15
