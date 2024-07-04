@@ -76,13 +76,6 @@ importers:
       '@clack/prompts':
         specifier: ^0.7.0
         version: 0.7.0
-    devDependencies:
-      '@types/node':
-        specifier: ^20.14.9
-        version: 20.14.9
-      typescript:
-        specifier: ^5.5.3
-        version: 5.5.3
 
   packages/create-web/template/template_app:
     dependencies:
@@ -2347,6 +2340,7 @@ snapshots:
   '@types/node@20.14.9':
     dependencies:
       undici-types: 5.26.5
+    optional: true
 
   '@types/pbf@3.0.5': {}
 
@@ -3712,7 +3706,8 @@ snapshots:
 
   ufo@1.5.3: {}
 
-  undici-types@5.26.5: {}
+  undici-types@5.26.5:
+    optional: true
 
   union-value@1.0.1:
     dependencies:

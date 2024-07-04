@@ -7,9 +7,8 @@ export function setupTemplate(
     projectName, // string
     backendLanguage, // "python" | "rust" | "none"
 ) {
-
     const pathToTemplate = path.join(
-        path.dirname(path.dirname(fileURLToPath(import.meta.url))),
+        path.dirname(fileURLToPath(import.meta.url)),
         "template"
     );
 
@@ -151,7 +150,7 @@ function patch(
 
 function patchPackageJson(
     packageJson, // object (parsed package.json)
-    projectName, // string, 
+    projectName, // string,
     backendLanguage, // "python" | "rust" | "none"
 ) { // -> object
     // Fix project name

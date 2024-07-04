@@ -34,7 +34,7 @@ if (isDirectory(cwd)) {
 } else {
     // If the directory doesn't exist, create it
     fs.mkdir(cwd, { recursive: true }, (err) => { if (err) throw err });
-    p.log.info(`The directory '${cwd}' didn't exist, so I've created it for you@ Carry on...`);
+    p.log.info(`The directory '${cwd}' didn't exist, so I've created it for you! Carry on...`);
 }
 
 // Prompt for project name
