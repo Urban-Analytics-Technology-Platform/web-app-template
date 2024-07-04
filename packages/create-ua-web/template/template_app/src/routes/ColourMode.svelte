@@ -94,12 +94,6 @@
   //   }
   // }
   // @@normal
-
-  async function resetMode() {
-    await $rustBackend!.unset();
-    $rustIsLoaded = false;
-    $mode = { kind: "title" };
-  }
 </script>
 
 <SplitComponent>
@@ -128,7 +122,7 @@
       <!-- @@normal -->
     </p>
 
-    <p><button on:click={resetMode}>Back to Title Mode</button></p>
+    <p><button on:click={() => $mode = { kind: "title" }}>Back to Title Mode</button></p>
   </div>
 
   <div slot="map">
