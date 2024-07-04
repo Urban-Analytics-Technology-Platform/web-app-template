@@ -1,4 +1,4 @@
-# create-ua-web
+# @uatp/create-web
 
 A node package which sets up an Urban Analytics web app for you, based on our in-house template.
 
