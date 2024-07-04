@@ -92,7 +92,7 @@ function patch(
     // lines of code it sees:
     //
     //  'template': The lines will be omitted. This is because the lines are
-    //              meant to be only present in the template itself to allow the 
+    //              meant to be only present in the template itself to allow the
     //              template to be tested.
     //  'rust'    : The lines will be uncommented and included, but only if the
     //              target backend language is Rust.

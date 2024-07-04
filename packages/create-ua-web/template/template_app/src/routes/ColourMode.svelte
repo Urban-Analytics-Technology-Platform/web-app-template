@@ -20,40 +20,36 @@
   let fileInput: HTMLInputElement;
 
   async function getFileContents(): Promise<string> {
-      let file = fileInput.files![0];
-      if (!file) {
-        throw new Error("Please select a file first.");
-      }
-      return file.text();
+    let file = fileInput.files![0];
+    if (!file) {
+      throw new Error("Please select a file first.");
+    }
+    return file.text();
   }
 
   // @@template
   async function colourWithRust() {
     try {
-        const contents = await getFileContents();
-        const loaded = await $rustBackend!.isLoaded();
-        if (!loaded) {
-            await $rustBackend!.initialise();
-        }
-        const new_gj = await $rustBackend!.addColours(
-          JSON.parse(contents),
-        );
-        gj = new_gj;
+      const contents = await getFileContents();
+      const loaded = await $rustBackend!.isLoaded();
+      if (!loaded) {
+        await $rustBackend!.initialise();
+      }
+      const new_gj = await $rustBackend!.addColours(JSON.parse(contents));
+      gj = new_gj;
     } catch (err) {
       window.alert(`Failed to open file: ${err}`);
     }
   }
   async function colourWithPython() {
     try {
-        const contents = await getFileContents();
-        const loaded = await $pythonBackend!.isLoaded();
-        if (!loaded) {
-          await $pythonBackend!.initialise(window.location.pathname);
-        }
-        const new_gj = await $pythonBackend!.addColours(
-          JSON.parse(contents),
-        );
-        gj = new_gj;
+      const contents = await getFileContents();
+      const loaded = await $pythonBackend!.isLoaded();
+      if (!loaded) {
+        await $pythonBackend!.initialise(window.location.pathname);
+      }
+      const new_gj = await $pythonBackend!.addColours(JSON.parse(contents));
+      gj = new_gj;
     } catch (err) {
       window.alert(`Failed to open file: ${err}`);
     }
@@ -61,34 +57,27 @@
   // @@rust
   // async function colourWithRust() {
   //   try {
-  //     let file = fileInput.files![0];
-  //     if (!file) {
-  //         window.alert("Please select a file first.");
-  //         return;
+  //     const contents = await getFileContents();
+  //     const loaded = await $rustBackend!.isLoaded();
+  //     if (!loaded) {
+  //       await $rustBackend!.initialise();
   //     }
-  //     const reader = new FileReader();
-  //     reader.readAsText(file);
-  //     reader.addEventListener("load", async () => {
-  //         await $rustBackend!.initialise();
-  //         const new_gj = await $rustBackend!.addColours(JSON.parse(reader.result));
-  //         gj = new_gj;
-  //     });
+  //     const new_gj = await $rustBackend!.addColours(JSON.parse(contents));
+  //     gj = new_gj;
   //   } catch (err) {
-  //     window.alert(`Couldn't open this file: ${err}`);
+  //     window.alert(`Failed to open file: ${err}`);
   //   }
   // }
   // @@python
   // async function colourWithPython() {
   //   try {
-  //       const contents = await getFileContents();
-  //       const loaded = await $pythonBackend!.isLoaded();
-  //       if (!loaded) {
-  //         await $pythonBackend!.initialise(window.location.pathname);
-  //       }
-  //       const new_gj = await $pythonBackend!.addColours(
-  //         JSON.parse(contents),
-  //       );
-  //       gj = new_gj;
+  //     const contents = await getFileContents();
+  //     const loaded = await $pythonBackend!.isLoaded();
+  //     if (!loaded) {
+  //       await $pythonBackend!.initialise(window.location.pathname);
+  //     }
+  //     const new_gj = await $pythonBackend!.addColours(JSON.parse(contents));
+  //     gj = new_gj;
   //   } catch (err) {
   //     window.alert(`Failed to open file: ${err}`);
   //   }
@@ -122,7 +111,11 @@
       <!-- @@normal -->
     </p>
 
-    <p><button on:click={() => $mode = { kind: "title" }}>Back to Title Mode</button></p>
+    <p>
+      <button on:click={() => ($mode = { kind: "title" })}
+        >Back to Title Mode</button
+      >
+    </p>
   </div>
 
   <div slot="map">

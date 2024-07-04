@@ -29,16 +29,17 @@ jobs:
       - name: Install dependencies for all packages
         run: pnpm install
 
-      # NOTE: It's important to build ua-components _before_ uatp_template,
+      # NOTE: It's important to build @uatp/components _before_ uatp_template,
       # since the latter depends on it.
-      - name: Test ua-components
+      - name: Test @uatp/components
         run: |
-          pnpm --filter=ua-components build
-          pnpm --filter=ua-components test
+          pnpm --filter=@uatp/components build
+          pnpm --filter=@uatp/components test
 
       - name: Test uatp_template
         run: |
-          pnpm --filter=uatp_template wasm
+          pnpm --filter=uatp_template rust
+          pnpm --filter=uatp_template python
           pnpm --filter=uatp_template build
           pnpm --filter=uatp_template test
 
