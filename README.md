@@ -3,7 +3,7 @@
 This repo contains several packages:
 
 - `@uatp/components`: A library providing a set of Svelte components for building Urban Analytics web applications
-- `uatp_template`: A template which can be used as a starting point for new web apps
+- `@uatp/template`: A template which can be used as a starting point for new web apps
   - The sample app is deployed at <https://urban-analytics-technology-platform.github.io/web-app-template/>
   - The app comes with sample Rust and Python 'backends' which can be used with the app template
 - `@uatp/create-web`: A script which generates a new web app for you using the template
@@ -15,27 +15,11 @@ If you're reading this because you want to _use_ the web template, i.e. make a n
 
 ### Getting started
 
-Firstly, make sure [you have `pnpm` installed](https://pnpm.io/installation).
+Firstly, make sure you have both [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) and [`pnpm`](https://pnpm.io/installation) installed.
 (You will need it to work on your web app anyway.)
 
-Right now, the UA web template is not yet on the NPM registry, so you'll need to clone this repository and navigate to a directory within it:
-
 ```bash
-git clone https://github.com/Urban-Analytics-Technology-Platform/web-app-template.git
-cd web-app-template/packages/create-web
-```
-
-Then, run the following commands:
-
-```bash
-pnpm install
-pnpm exec dist/bin.js
-```
-
-In the future, when this template is on the NPM registry, you will be able to just run the following command, or something like that:
-
-```bash
-npm create @uatp/web
+npm create @uatp/web@latest
 ```
 
 ### Working with your new app
