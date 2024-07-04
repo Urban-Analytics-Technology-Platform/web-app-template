@@ -4,6 +4,7 @@
   import { getAquisitionsByYear } from "./api";
   import { onMount } from "svelte";
   export let title: string;
+
   let data: any;
   onMount(async () => {
     data = await getAquisitionsByYear();
