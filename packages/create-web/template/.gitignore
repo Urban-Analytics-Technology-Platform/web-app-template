@@ -1,5 +1,6 @@
 # Shared
 web/node_modules/
+web/build
 dist/
 test-results/
 .DS_Store
