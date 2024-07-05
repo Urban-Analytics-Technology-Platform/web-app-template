@@ -49,7 +49,7 @@ jobs:
 
       - name: Test @uatp/create-web Rust
         run: |
-          npm exec packages/create-web -- --directory /tmp/rust --project-name rust --backend rust
+          npm exec ./packages/create-web -- --directory /tmp/rust --project-name rust --backend rust
           cd /tmp/rust/web
           pnpm install
           pnpm rust
@@ -57,7 +57,7 @@ jobs:
 
       - name: Test @uatp/create-web Python
         run: |
-          npm exec packages/create-web -- --directory /tmp/python --project-name python --backend python
+          npm exec ./packages/create-web -- --directory /tmp/python --project-name python --backend python
           cd /tmp/python/web
           pnpm install
           pnpm python
@@ -65,7 +65,7 @@ jobs:
 
       - name: Test @uatp/create-web no-backend
         run: |
-          npm exec packages/create-web -- --directory /tmp/none --project-name none --backend none
+          npm exec ./packages/create-web -- --directory /tmp/none --project-name none --backend none
           cd /tmp/none/web
           pnpm install
           pnpm build
