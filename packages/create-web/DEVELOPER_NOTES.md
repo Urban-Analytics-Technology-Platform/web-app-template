@@ -10,7 +10,7 @@ It explains exactly what's going on inside each of the files and how you can mar
 When you run `npm create @uatp/web`, it asks you whether you want a Python, Rust, or no 'backend' (these are not traditional backends, but rather Rust or Python code that is compiled to WASM and run in the browser).
 These correspond respectively to the output versions `rust`, `python`, and `none`.
 
-## Setting up a new app based on the template
+## Code generation from the template
 
 The template itself is hosted inside the `template` subdirectory.
 It is, itself, a functional web app: this allows you to test changes to the template by running the app locally.
@@ -120,3 +120,36 @@ When creating a Python app, `create-web` will override `test:rust` with an empty
 The net effect is that the `test:rust` script will be removed from the `scripts` object in the final `package.json`.
 
 (Note that in the above example, you don't strictly need to include the `@@rust test:rust` script, since its contents are the same as the original.)
+
+## I got an error. What gives?
+
+**Error**: When developing locally, `Failed to resolve entry for package "@uatp/components". The package may have incorrect main/module/exports specified in its package.json.`
+
+**Solution**: `pnpm --filter @uatp/components build`
+
+**Explanation**: When developing the template library locally, it will depend on the version of the components library in the same workspace (i.e. the code inside `packages/components`).
+You need to build the component library before developing the template.
+
+----
+
+**Error**: When running Python code in the browser, `Failed to open file: PythonError: [...] File is not a zip file`
+
+**Solution**: `pnpm python` to build the wheel, or check that the path to the wheel in `src/routes/python_worker.ts` is correct
+
+**Explanation**: Pyodide is trying to install your Python wheel, but can't find it. Build the wheel.
+
+----
+
+**Error**: When developing locally, `Can't find ../rust_backend/pkg, run wasm-pack build ../rust_backend --target web`
+
+**Solution**: Run the specified command, or just `pnpm rust` which is equivalent
+
+**Explanation**: Your Rust package wasn't compiled to WASM yet.
+
+----
+
+**Error**: When running Rust or Python code, `Failed to open file: ReferenceError: alert is not defined` (or some other function)
+
+**Solution**: Don't use the `alert()` JavaScript function. Lots of WASM "hello world" examples use it, but it won't work here. You can use `console.log()`. Alternatively, you can pass a string back to the Svelte code and call `alert()` from there.
+
+**Explanation**: The JavaScript `alert()` function is a _browser_ property (it belongs to the global `window` object). However, the template we've put together runs Rust and Python code in a _web worker_, which is a background thread that is separate from the main browser thread. Thus, it doesn't have access to the `window` object. (The benefit of running code in a web worker is that it doesn't stop the user from interacting with the website UI itself; otherwise the browser would effectively hang whenever you started a Rust/Python calculation.)
