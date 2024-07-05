@@ -8,11 +8,13 @@
   import TitleMode from "./TitleMode.svelte";
   import TriangleMode from "./TriangleMode.svelte";
   import { map as mapStore, backend, mode } from "./globals";
-  import workerWrapper from "./worker?worker";
-  import { type Backend } from "./worker";
   import * as Comlink from "comlink";
   import { onMount } from "svelte";
   import type { Map } from "maplibre-gl";
+  //import workerWrapper from "./rust_worker?worker";
+  //import { type Backend } from "./rust_worker";
+  import workerWrapper from "./python_worker?worker";
+  import { type Backend } from "./python_worker";
   import BubbleChart from "../charts/BubbleChart.svelte";
   import BarChart from "../charts/BarChart.svelte";
   import ApiBarChart from "../charts/ApiBarChart.svelte";
