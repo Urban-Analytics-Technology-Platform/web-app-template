@@ -13,5 +13,13 @@
   "dependencies": {
     "@clack/prompts": "0.7.0",
     "arg": "5.0.2"
-  }
+  },
+  "files": [
+    "bin.js",
+    "index.js",
+    "package.json",
+    "README.md",
+    "template",
+    "template/.gitignore"
+  ]
 }
