@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "outDir": "./dist/",
-    "target": "es2022",
-    "module": "node16",
-    "strict": true
-  },
-  "exclude": ["node_modules", "template"]
-}
