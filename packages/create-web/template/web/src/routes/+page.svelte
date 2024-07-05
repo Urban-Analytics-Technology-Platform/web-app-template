@@ -100,7 +100,7 @@
 
 <Layout>
   <div slot="left">
-    <h1>App title</h1>
+    <h1>A new title!</h1>
     <div bind:this={sidebarDiv}></div>
     <div><BarChart title="A bar chart" /></div>
     <div><ApiBarChart title="A bar chart with data from an API" /></div>

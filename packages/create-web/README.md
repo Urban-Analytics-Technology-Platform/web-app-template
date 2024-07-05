@@ -14,4 +14,4 @@ Clone the repository. `cd` to this directory (`packages/create-web`), then
 
 ## Are you developing this template?
 
-Please read [the wiki on our GitHub repo](https://github.com/Urban-Analytics-Technology-Platform/web-app-template/wiki/Developing-create%E2%80%90web) first.
+Please read `README.md` and `packages/create-web/DEVELOPER_NOTES.md` in [our GitHub repository](https://github.com/Urban-Analytics-Technology-Platform/web-app-template) first!

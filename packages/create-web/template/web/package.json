@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
+    "build-components": "pnpm --filter @uatp/components build",
     "preview": "vite preview",
     "test": "pnpm run test:prep && pnpm run test:all && pnpm run test:rust && pnpm run test:python",
     "@@rust test": "pnpm run test:prep && pnpm run test:all && pnpm run test:rust",
