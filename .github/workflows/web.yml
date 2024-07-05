@@ -20,17 +20,18 @@ jobs:
       - name: Cache WASM build
         uses: actions/cache@v3
         with:
-          path: rust_backend/target
+          path: packages/create-ua-web/template/rust_backend/target
           key: rust_backend
 
-      - name: Build web app
+      - name: Build ua-components
+        working-directory: packages/ua_components
         run: |
-          cd ua_components
-          pnpm i
+          pnpm install
           pnpm build
 
-          cd ../template_app
-          pnpm i
+      - name: Build uatp_template
+        working-directory: packages/create-ua-web/template/web
+          pnpm install
           pnpm wasm-release
           BASE_PATH=/web-app-template pnpm build
           # Unclear why this is necessary
@@ -40,4 +41,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./template_app/build/
+          publish_dir: packages/create-ua-web/template/web/build

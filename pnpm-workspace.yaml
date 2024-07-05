@@ -1,3 +1,4 @@
 packages:
-  - 'ua_components'
-  - 'template_app'
+  - 'packages/components'
+  - 'packages/create-web'
+  - 'packages/create-web/template/web'

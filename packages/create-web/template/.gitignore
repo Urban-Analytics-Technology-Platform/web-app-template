@@ -1,0 +1,28 @@
+# Shared
+web/node_modules/
+web/build
+dist/
+test-results/
+.DS_Store
+package-lock.json
+.svelte-kit/
+
+# @@template
+rust_backend/Cargo.lock
+rust_backend/target/
+web/static/*.whl
+python_backend/**/*.whl
+python_backend/**/build
+python_backend/**/__pycache__
+python_backend/**/*.egg-info
+# @@rust
+# rust_backend/Cargo.lock
+# rust_backend/target/
+# @@python
+# # Generate the wheel here via `pnpm python`
+# web/static/*.whl
+# python_backend/**/*.whl
+# python_backend/**/build
+# python_backend/**/__pycache__
+# python_backend/**/*.egg-info
+# @@normal

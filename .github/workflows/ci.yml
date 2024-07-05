@@ -1,4 +1,3 @@
-name: CI Workflow
 on:
   pull_request:
     branches: [main]
@@ -27,10 +26,54 @@ jobs:
           path: rust_backend/target
           key: rust_backend
 
-      - name: Install and run tests
+      - name: Install dependencies for all packages
+        run: pnpm install
+
+      # NOTE: It's important to build @uatp/components _before_ uatp_template,
+      # since the latter depends on it.
+      - name: Test @uatp/components
         run: |
+          pnpm --filter=@uatp/components build
+          pnpm --filter=@uatp/components test
+
+      - name: Test @uatp/template
+        run: |
+          pnpm --filter=@uatp/template rust
+          pnpm --filter=@uatp/template python
+          pnpm --filter=@uatp/template build
+          pnpm --filter=@uatp/template test
+
+      # pnpm can't do 'exec', have to use npm
+      - name: Install npm
+        uses: actions/setup-node@v4
+
+      - name: Test @uatp/create-web Rust
+        run: |
+          npm exec ./packages/create-web -- --directory /tmp/rust --project-name rust --backend rust
+          cd /tmp/rust/web
           pnpm install
-          pnpm run test
+          pnpm rust
+          pnpm build
+          pnpm test
+
+      - name: Test @uatp/create-web Python
+        run: |
+          npm exec ./packages/create-web -- --directory /tmp/python --project-name python --backend python
+          cd /tmp/python/web
+          pnpm install
+          pnpm python
+          pnpm build
+          pnpm test
+
+      - name: Test @uatp/create-web no-backend
+        run: |
+          npm exec ./packages/create-web -- --directory /tmp/none --project-name none --backend none
+          cd /tmp/none/web
+          pnpm install
+          pnpm build
+          pnpm test
+
+
 
   pre-commit:
     runs-on: ubuntu-latest

@@ -1,16 +1,6 @@
 {
-  "name": "web-app-template",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "pnpm --filter \"*\" test",
-    "format": "pnpm --filter \"*\" format",
-    "build_components": "pnpm --filter ua-components run build",
-    "dev_components":"pnpm --filter ua-components  run  dev",
-    "dev_app":"pnpm --filter uatp_template  run  dev"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "name": "web-app-template-monorepo",
+  "version": "0.0.1",
+  "description": "monorepo for create-ua-web and @uatp/components",
+  "private": true
 }

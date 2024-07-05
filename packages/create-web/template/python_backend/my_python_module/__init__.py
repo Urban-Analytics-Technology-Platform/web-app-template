@@ -1,5 +1,15 @@
 import json
+import random
 from haversine import inverse_haversine, Direction, Unit
+
+# If you don't need to use persistent state, you can just use an ordinary
+# function
+def add_colours(gj):
+    COLOURS = ["#FFDF56", "#000000", "#4183B5", "#6A6A6A", "#FFD73F"]
+    for feature in gj["features"]:
+        feature["properties"]["color"] = random.choice(COLOURS)
+    return gj
+
 
 # Any interesting state should be stored in a singleton of this object
 class Backend:
