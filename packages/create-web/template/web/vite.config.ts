@@ -15,6 +15,7 @@ export default defineConfig({
   // worker: { format: "es" },
   // plugins: [sveltekit(), wasmPack(["../rust_backend"], [])],
   // @@python
+  // worker: { format: "es" },
   // plugins: [sveltekit()],
   // optimizeDeps: { exclude: ["pyodide"] },
   // @@none
