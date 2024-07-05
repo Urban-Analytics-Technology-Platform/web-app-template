@@ -12,27 +12,19 @@ export function setupTemplate(
         "template"
     );
 
-    // Copy web folder
-    fs.cpSync(
-        path.join(pathToTemplate, "web"),
-        path.join(dstDir, "web"),
-        { recursive: true },
-    );
+    // TODO: Don't copy things that match gitignore
+    // Copy files that will always be there
+    cp_r(".gitignore", pathToTemplate, dstDir);
+    cp_r("README.md", pathToTemplate, dstDir);
+    cp_r("LICENSE", pathToTemplate, dstDir);
+    cp_r("web", pathToTemplate, dstDir);
 
     // Copy appropriate backend folder
     if (backendLanguage === "rust") {
-        fs.cpSync(
-            path.join(pathToTemplate, "rust_backend"),
-            path.join(dstDir, "rust_backend"),
-            { recursive: true },
-        );
+        cp_r("rust_backend", pathToTemplate, dstDir);
     }
     else if (backendLanguage === "python") {
-        fs.cpSync(
-            path.join(pathToTemplate, "python_backend"),
-            path.join(dstDir, "python_backend"),
-            { recursive: true },
-        );
+        cp_r("python_backend", pathToTemplate, dstDir);
     }
 
     // Patch package.json
@@ -42,14 +34,15 @@ export function setupTemplate(
     fs.writeFileSync(packageJsonPath, JSON.stringify(patchedPackageJson, null, 2));
 
     // Patch some files
+    patchWrapper(dstDir, backendLanguage, ".gitignore", magicCommentRgxGitIgnore, uncommentGitIgnore);
+    // TODO: Eventually we want to loop over all files in the web folder and
+    // patch them. If they're .ts files, just run the uncommentTs. If they're
+    // .svelte files, run both uncommentTs and uncommentHtml.
     patchWrapper(dstDir, backendLanguage, "web/vite.config.ts", magicCommentRgxTs, uncommentTs);
     patchWrapper(dstDir, backendLanguage, "web/src/routes/+page.svelte", magicCommentRgxTs, uncommentTs);
     patchWrapper(dstDir, backendLanguage, "web/src/routes/globals.ts", magicCommentRgxTs, uncommentTs);
     patchWrapper(dstDir, backendLanguage, "web/src/routes/ColourMode.svelte", magicCommentRgxTs, uncommentTs);
     patchWrapper(dstDir, backendLanguage, "web/src/routes/ColourMode.svelte", magicCommentRgxHtml, uncommentHtml);
-    // TODO: Eventually we want to loop over all files in the web folder and
-    // patch them. If they're .ts files, just run the uncommentTs. If they're
-    // .svelte files, run both uncommentTs and uncommentHtml.
 }
 
 
@@ -186,6 +179,15 @@ function patchPackageJson(
     return packageJson;
 }
 
+// Utils
+function cp_r(filename, src, dst) {
+    fs.cpSync(
+        path.join(src, filename),
+        path.join(dst, filename),
+        { recursive: true },
+    );
+}
+
 // Comment functions for TypeScript
 const magicCommentRgxTs = /^\/\/ @@([a-z]+)$/;
 function uncommentTs(line) {
@@ -196,4 +198,10 @@ function uncommentTs(line) {
 const magicCommentRgxHtml = /^<!-- @@([a-z]+) -->$/;
 function uncommentHtml(line) {
     return line.replace(/^(\s*)<!-- (.*) -->$/, "$1$2");
+}
+
+// Comment functions for .gitignore
+const magicCommentRgxGitIgnore = /^# @@([a-z]+)$/;
+function uncommentGitIgnore(line) {
+    return line.replace(/^(\s*)# (.*)$/, "$1$2");
 }
