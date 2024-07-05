@@ -7,6 +7,9 @@
   import { MapLibre } from "svelte-maplibre";
   import TitleMode from "./TitleMode.svelte";
   import ColourMode from "./ColourMode.svelte";
+  import BubbleChart from "../charts/BubbleChart.svelte";
+  import BarChart from "../charts/BarChart.svelte";
+  import ApiBarChart from "../charts/ApiBarChart.svelte";
 
   import { onMount } from "svelte";
   import type { Map } from "maplibre-gl";
@@ -97,6 +100,9 @@
   <div slot="left">
     <h1>App title</h1>
     <div bind:this={sidebarDiv}></div>
+    <div><BarChart title="A bar chart" /></div>
+    <div><ApiBarChart title="A bar chart with data from an API" /></div>
+    <div><BubbleChart title="A bubble chart with zoom" /></div>
   </div>
   <div slot="main" style="position:relative; width: 100%; height: 100vh;">
     <MapLibre
