@@ -12,9 +12,30 @@ export function setupTemplate(
         "template"
     );
 
-    // TODO: Don't copy things that match gitignore
+    // The gitignore file needs to be treated specially. When running this
+    // script locally, there is no problem with just copying .gitignore from
+    // the source to destination. However, when running `npm create @uatp/web`,
+    // npm will silently rename the .gitignore file to .npmignore so we need to
+    // copy it from there. The following code ensures that the user gets a
+    // .gitignore file regardless of whether they are running this script
+    // locally or from npm.
+    try {
+        cp_r(".gitignore", pathToTemplate, dstDir);
+    } catch { ; }
+    try {
+        fs.cpSync(
+            path.join(pathToTemplate, ".npmignore"),
+            path.join(dstDir, ".gitignore"),
+            { recursive: true },
+        );
+    } catch { ;}
+
     // Copy files that will always be there
-    cp_r(".gitignore", pathToTemplate, dstDir);
+    // TODO: Don't copy things that match gitignore
+    // This is not a problem when running the version published to npm, as the
+    // npm package will not contain files which were gitignored. However this
+    // is a problem when running locally as cp_r will happily copy things like
+    // node_modules
     cp_r("README.md", pathToTemplate, dstDir);
     cp_r("LICENSE", pathToTemplate, dstDir);
     cp_r("web", pathToTemplate, dstDir);
