@@ -2,7 +2,7 @@
 web/node_modules/
 dist/
 test-results/
-*.DS_Store
+.DS_Store
 package-lock.json
 .svelte-kit/
 
