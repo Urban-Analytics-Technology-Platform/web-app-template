@@ -4,8 +4,8 @@ import type { Map } from "maplibre-gl";
 import { writable, type Writable } from "svelte/store";
 import * as Comlink from "comlink";
 // @@template
-import { type RustBackend } from "./rust_worker";
-import { type PythonBackend } from "./python_worker";
+import { type RustBackend } from "$lib/rust_worker";
+import { type PythonBackend } from "$lib/python_worker";
 // @@rust
 // import { type RustBackend } from "./rust_worker";
 // @@python

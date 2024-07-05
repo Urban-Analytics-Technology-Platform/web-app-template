@@ -7,9 +7,9 @@
   import { MapLibre } from "svelte-maplibre";
   import TitleMode from "./TitleMode.svelte";
   import ColourMode from "./ColourMode.svelte";
-  import BubbleChart from "../charts/BubbleChart.svelte";
-  import BarChart from "../charts/BarChart.svelte";
-  import ApiBarChart from "../charts/ApiBarChart.svelte";
+  import BubbleChart from "$lib/charts/BubbleChart.svelte";
+  import BarChart from "$lib/charts/BarChart.svelte";
+  import ApiBarChart from "$lib/charts/ApiBarChart.svelte";
 
   import { onMount } from "svelte";
   import type { Map } from "maplibre-gl";
@@ -17,18 +17,18 @@
 
   // @@template
   import { map as mapStore, rustBackend, pythonBackend, mode } from "./globals";
-  import rustWorkerWrapper from "./rust_worker?worker";
-  import { type RustBackend } from "./rust_worker";
-  import pythonWorkerWrapper from "./python_worker?worker";
-  import { type PythonBackend } from "./python_worker";
+  import rustWorkerWrapper from "$lib/rust_worker?worker";
+  import { type RustBackend } from "$lib/rust_worker";
+  import pythonWorkerWrapper from "$lib/python_worker?worker";
+  import { type PythonBackend } from "$lib/python_worker";
   // @@rust
   // import { map as mapStore, rustBackend, mode } from "./globals";
-  // import rustWorkerWrapper from "./rust_worker?worker";
-  // import { type RustBackend } from "./rust_worker";
+  // import rustWorkerWrapper from "$lib/rust_worker?worker";
+  // import { type RustBackend } from "$lib/rust_worker";
   // @@python
   // import { map as mapStore, pythonBackend, mode } from "./globals";
-  // import pythonWorkerWrapper from "./python_worker?worker";
-  // import { type PythonBackend } from "./python_worker";
+  // import pythonWorkerWrapper from "$lib/python_worker?worker";
+  // import { type PythonBackend } from "$lib/python_worker";
   // @@none
   // import { map as mapStore, mode } from "./globals";
   // @@normal
