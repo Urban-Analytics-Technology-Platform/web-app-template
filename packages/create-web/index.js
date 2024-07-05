@@ -22,9 +22,11 @@ export function setupTemplate(
     // Copy appropriate backend folder
     if (backendLanguage === "rust") {
         cp_r("rust_backend", pathToTemplate, dstDir);
+        rm("web/src/lib/python_worker.ts", dstDir);
     }
     else if (backendLanguage === "python") {
         cp_r("python_backend", pathToTemplate, dstDir);
+        rm("web/src/lib/rust_worker.ts", dstDir);
     }
 
     // Patch package.json
@@ -185,6 +187,12 @@ function cp_r(filename, src, dst) {
         path.join(src, filename),
         path.join(dst, filename),
         { recursive: true },
+    );
+}
+
+function rm(filename, dst) {
+    fs.rmSync(
+        path.join(dst, filename),
     );
 }
 

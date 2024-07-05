@@ -7,9 +7,9 @@ import * as Comlink from "comlink";
 import { type RustBackend } from "$lib/rust_worker";
 import { type PythonBackend } from "$lib/python_worker";
 // @@rust
-// import { type RustBackend } from "./rust_worker";
+// import { type RustBackend } from "$lib/rust_worker";
 // @@python
-// import { type PythonBackend } from "./python_worker";
+// import { type PythonBackend } from "$lib/python_worker";
 // @@normal
 
 // Using the MapLibre map directly isn't needed often; try to use
