@@ -8,6 +8,8 @@
   // import { mode, rustBackend, rustIsLoaded } from "./globals";
   // @@python
   // import { mode, pythonBackend } from "./globals";
+  // @@none
+  // import { mode } from "./globals";
   // @@normal
   import { GeoJSON, FillLayer, LineLayer } from "svelte-maplibre";
 
