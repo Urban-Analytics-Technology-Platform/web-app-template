@@ -43,6 +43,10 @@ jobs:
           pnpm --filter=@uatp/template build
           pnpm --filter=@uatp/template test
 
+      # pnpm can't do 'exec', have to use npm
+      - name: Install npm
+        uses: actions/setup-node@v4
+
       - name: Test @uatp/create-web Rust
         run: |
           npm exec packages/create-web -- --directory /tmp/rust --project-name rust --backend rust
