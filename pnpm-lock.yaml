@@ -27,7 +27,7 @@ importers:
         version: 3.0.0
       maplibre-gl:
         specifier: ^4.3.1
-        version: 4.3.2
+        version: 4.3.1
       pyodide:
         specifier: ^0.26.1
         version: 0.26.1
@@ -1316,8 +1316,8 @@ packages:
     resolution: {integrity: sha512-krg2KFIdOpLPngONDhP6ixCoWl5kbdMINP0moMSJFVX7wX1Clm2M9hlNKXS8vBGlVWwR5R3ZfI6IPrYz7c+aCQ==}
     engines: {node: '>=16.14.0', npm: '>=8.1.0'}
 
-  maplibre-gl@4.3.2:
-    resolution: {integrity: sha512-/oXDsb9I+LkjweL/28aFMLDZoIcXKNEhYNAZDLA4xgTNkfvKQmV/r0KZdxEMcVthincJzdyc6Y4N8YwZtHKNnQ==}
+  maplibre-gl@4.3.1:
+    resolution: {integrity: sha512-SWniloYKFQsFinconLZhMVOp5Ma+SVaDidRxps0Guc+gm0L4qTLS54+tlM1Jy/is1+mD3uFsTc1+Ixbbaxyjxw==}
     engines: {node: '>=16.14.0', npm: '>=8.1.0'}
 
   merge-stream@2.0.0:
@@ -3231,7 +3231,7 @@ snapshots:
       tinyqueue: 2.0.3
       vt-pbf: 3.1.3
 
-  maplibre-gl@4.3.2:
+  maplibre-gl@4.3.1:
     dependencies:
       '@mapbox/geojson-rewind': 0.5.2
       '@mapbox/jsonlint-lines-primitives': 2.0.2
