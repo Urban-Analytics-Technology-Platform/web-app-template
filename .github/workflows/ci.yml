@@ -54,6 +54,7 @@ jobs:
           pnpm install
           pnpm rust
           pnpm build
+          pnpm test
 
       - name: Test @uatp/create-web Python
         run: |
@@ -62,6 +63,7 @@ jobs:
           pnpm install
           pnpm python
           pnpm build
+          pnpm test
 
       - name: Test @uatp/create-web no-backend
         run: |
@@ -69,6 +71,7 @@ jobs:
           cd /tmp/none/web
           pnpm install
           pnpm build
+          pnpm test
 
 
 

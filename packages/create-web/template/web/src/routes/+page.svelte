@@ -29,6 +29,8 @@
   // import { map as mapStore, pythonBackend, mode } from "./globals";
   // import pythonWorkerWrapper from "./python_worker?worker";
   // import { type PythonBackend } from "./python_worker";
+  // @@none
+  // import { map as mapStore, mode } from "./globals";
   // @@normal
 
   // Everything in this script section is boilerplate; you can ignore it
