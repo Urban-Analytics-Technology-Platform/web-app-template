@@ -10,22 +10,40 @@
 
   let chartInstance;
   let canvas: HTMLCanvasElement;
+  Chart.register(...registerables, zoomPlugin);
 
   onMount(async () => {
-    Chart.register(...registerables, zoomPlugin);
+    // Get data
     const data = await getDimensions();
+
+    // Sclaes config
     const scales = {
       x: {
-        position: "top",
+        position: "bottom",
       },
       y: {
-        position: "right",
+        position: "left",
       },
     };
-    const options: any = {
+
+    // Zoom options
+    const zoomOptions = {
+      zoom: {
+        mode: "xy",
+        drag: {
+          enabled: true,
+          borderColor: "rgb(54, 162, 235)",
+          borderWidth: 1,
+          backgroundColor: "rgba(54, 162, 235, 0.3)",
+        },
+      },
+    };
+
+    // Combined chart config
+    const config: any = {
       type: "bubble",
       data: {
-        labels: data.map((x) => x.year),
+        labels: data.map((x: any) => x.year),
         datasets: [
           {
             label: "Dimensions",
@@ -38,30 +56,22 @@
           },
         ],
       },
-      plugins: {
+      options: {
         scales: scales,
-        zoom: {
-          pan: {
-            enabled: true,
-            mode: "x",
-          },
-          zoom: {
-            enabled: true,
-            mode: "x",
-            drag: true,
-            onZoomComplete: ({ chart }) => {
-              console.log("Zoom complete event triggered");
-              const xAxis = chart.scales.x;
-              const startValue = xAxis.getValueForPixel(xAxis.left);
-              const endValue = xAxis.getValueForPixel(xAxis.right);
-              console.log("Range subset selected:", startValue, endValue);
-            },
+        plugins: {
+          zoom: zoomOptions,
+          title: {
+            display: true,
+            position: "bottom",
+            text: (ctx: any) => "Zoom: " + zoomStatus(),
           },
         },
       },
     };
+    const zoomStatus = () =>
+      zoomOptions.zoom.drag.enabled ? "enabled" : "disabled";
 
-    chartInstance = new Chart(canvas.getContext("2d")!, options);
+    chartInstance = new Chart(canvas.getContext("2d")!, config);
   });
 </script>
 
