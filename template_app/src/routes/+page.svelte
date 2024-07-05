@@ -15,6 +15,9 @@
   //import { type Backend } from "./rust_worker";
   import workerWrapper from "./python_worker?worker";
   import { type Backend } from "./python_worker";
+  import BubbleChart from "../charts/BubbleChart.svelte";
+  import BarChart from "../charts/BarChart.svelte";
+  import ApiBarChart from "../charts/ApiBarChart.svelte";
 
   // Everything in this script section is boilerplate; you can ignore it
 
@@ -60,6 +63,9 @@
   <div slot="left">
     <h1>App title</h1>
     <div bind:this={sidebarDiv}></div>
+    <div><BarChart title="A bar chart" /></div>
+    <div><ApiBarChart title="A bar chart with data from an API" /></div>
+    <div><BubbleChart title="A bubble chart with zoom" /></div>
   </div>
   <div slot="main" style="position:relative; width: 100%; height: 100vh;">
     <MapLibre
