@@ -12,10 +12,10 @@ export function setupTemplate(
         "template"
     );
 
-    // Copy template_app folder
+    // Copy web folder
     fs.cpSync(
-        path.join(pathToTemplate, "template_app"),
-        path.join(dstDir, "template_app"),
+        path.join(pathToTemplate, "web"),
+        path.join(dstDir, "web"),
         { recursive: true },
     );
 
@@ -36,18 +36,18 @@ export function setupTemplate(
     }
 
     // Patch package.json
-    const packageJsonPath = path.join(dstDir, "template_app/package.json");
+    const packageJsonPath = path.join(dstDir, "web/package.json");
     const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
     const patchedPackageJson = patchPackageJson(packageJson, projectName, backendLanguage);
     fs.writeFileSync(packageJsonPath, JSON.stringify(patchedPackageJson, null, 2));
 
     // Patch some files
-    patchWrapper(dstDir, backendLanguage, "template_app/vite.config.ts", magicCommentRgxTs, uncommentTs);
-    patchWrapper(dstDir, backendLanguage, "template_app/src/routes/+page.svelte", magicCommentRgxTs, uncommentTs);
-    patchWrapper(dstDir, backendLanguage, "template_app/src/routes/globals.ts", magicCommentRgxTs, uncommentTs);
-    patchWrapper(dstDir, backendLanguage, "template_app/src/routes/ColourMode.svelte", magicCommentRgxTs, uncommentTs);
-    patchWrapper(dstDir, backendLanguage, "template_app/src/routes/ColourMode.svelte", magicCommentRgxHtml, uncommentHtml);
-    // TODO: Eventually we want to loop over all files in the template_app and
+    patchWrapper(dstDir, backendLanguage, "web/vite.config.ts", magicCommentRgxTs, uncommentTs);
+    patchWrapper(dstDir, backendLanguage, "web/src/routes/+page.svelte", magicCommentRgxTs, uncommentTs);
+    patchWrapper(dstDir, backendLanguage, "web/src/routes/globals.ts", magicCommentRgxTs, uncommentTs);
+    patchWrapper(dstDir, backendLanguage, "web/src/routes/ColourMode.svelte", magicCommentRgxTs, uncommentTs);
+    patchWrapper(dstDir, backendLanguage, "web/src/routes/ColourMode.svelte", magicCommentRgxHtml, uncommentHtml);
+    // TODO: Eventually we want to loop over all files in the web folder and
     // patch them. If they're .ts files, just run the uncommentTs. If they're
     // .svelte files, run both uncommentTs and uncommentHtml.
 }

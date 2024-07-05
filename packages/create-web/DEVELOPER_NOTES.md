@@ -150,6 +150,12 @@ You need to build the component library before developing the template.
 
 **Error**: When running Rust or Python code, `Failed to open file: ReferenceError: alert is not defined` (or some other function)
 
-**Solution**: Don't use the `alert()` JavaScript function. Lots of WASM "hello world" examples use it, but it won't work here. You can use `console.log()`. Alternatively, you can pass a string back to the Svelte code and call `alert()` from there.
+**Solution**: Don't use the `alert()` JavaScript function.
+Lots of WASM "hello world" examples use it, but it won't work here.
+You can use `console.log()` if you just want to see something.
+Alternatively, you can return a string back to the Svelte code and call `alert()` from there.
 
-**Explanation**: The JavaScript `alert()` function is a _browser_ property (it belongs to the global `window` object). However, the template we've put together runs Rust and Python code in a _web worker_, which is a background thread that is separate from the main browser thread. Thus, it doesn't have access to the `window` object. (The benefit of running code in a web worker is that it doesn't stop the user from interacting with the website UI itself; otherwise the browser would effectively hang whenever you started a Rust/Python calculation.)
+**Explanation**: The JavaScript `alert()` function is a _browser_ property (it belongs to the global `window` object).
+However, the template we've put together runs Rust and Python code in a [_web worker_](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers), which is a background thread that is separate from the main browser thread.
+Thus, it doesn't have access to the `window` object.
+(The benefit of running code in a web worker is that it doesn't stop the user from interacting with the website UI itself; otherwise the browser would effectively freeze whenever you started a Rust/Python calculation.)

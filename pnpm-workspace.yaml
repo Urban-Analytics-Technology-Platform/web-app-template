@@ -1,4 +1,4 @@
 packages:
   - 'packages/components'
   - 'packages/create-web'
-  - 'packages/create-web/template/template_app'
+  - 'packages/create-web/template/web'

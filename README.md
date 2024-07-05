@@ -41,7 +41,7 @@ If you are looking to _develop_ the UA web template, i.e. make changes to the co
 - `packages/components`: reusable Svelte components for Urban Analytics apps
   - This is set up as a SvelteKit project in library mode. `routes` (the demo site associated with the library) is currently unused, but could be used to demonstrate the components
 - `packages/create-web`: a script which generates a new web app in a user-specified location from the template
-- `packages/create-web/template/template_app`: the template itself
+- `packages/create-web/template/web`: the template itself
   - This directory contains a SvelteKit app using the static adaptor -- it builds to a set of statically hosted files, with no backend server. It uses [svelte-maplibre](https://github.com/dimfeld/svelte-maplibre/) for declaratively managing the map.
   - At the same level as this directory are `rust_backend` and `python_backend`, which are two "backends" that are compiled to WASM and run locally in the browser. The WASM code runs in a web worker (off the main browser thread), and all interaction is done through async calls using [Comlink](https://github.com/GoogleChromeLabs/comlink).
 

@@ -30,7 +30,7 @@ jobs:
           pnpm build
 
       - name: Build uatp_template
-        working-directory: packages/create-ua-web/template/template_app
+        working-directory: packages/create-ua-web/template/web
           pnpm install
           pnpm wasm-release
           BASE_PATH=/web-app-template pnpm build
@@ -41,4 +41,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: packages/create-ua-web/template/template_app/build
+          publish_dir: packages/create-ua-web/template/web/build
