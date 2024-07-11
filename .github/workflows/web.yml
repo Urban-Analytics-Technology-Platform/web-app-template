@@ -29,13 +29,13 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Build ua-components
+      - name: Build @uatp/components
         working-directory: packages/components
         run: |
           pnpm install
           pnpm build
 
-      - name: Build uatp_template
+      - name: Build @uatp/template
         working-directory: packages/create-web/template/web
         run: |
           pnpm install
