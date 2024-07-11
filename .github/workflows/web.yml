@@ -2,7 +2,8 @@ name: Deploy web
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   build:
@@ -20,19 +21,21 @@ jobs:
       - name: Cache WASM build
         uses: actions/cache@v3
         with:
-          path: packages/create-ua-web/template/rust_backend/target
+          path: packages/create-web/template/rust_backend/target
           key: rust_backend
 
       - name: Build ua-components
-        working-directory: packages/ua_components
+        working-directory: packages/components
         run: |
           pnpm install
           pnpm build
 
       - name: Build uatp_template
-        working-directory: packages/create-ua-web/template/web
+        working-directory: packages/create-web/template/web
+        run: |
           pnpm install
-          pnpm wasm-release
+          pnpm rust
+          pnpm python
           BASE_PATH=/web-app-template pnpm build
           # Unclear why this is necessary
           cp -Rv build/assets/ build/_app/immutable/workers/
@@ -41,4 +44,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: packages/create-ua-web/template/web/build
+          publish_dir: packages/create-web/template/web/build
