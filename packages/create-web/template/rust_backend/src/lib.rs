@@ -50,20 +50,9 @@ impl Backend {
         let mut new_gj = gj.clone();
 
         // Perform your calculations here. You can extract this block into a separate crate too
-        let new_features: Vec<Feature> = gj
-            .features
-            .into_iter()
-            .map(|mut feat| {
-                let mut properties = match feat.properties {
-                    None => Map::new(),
-                    Some(p) => p.clone(),
-                };
-                properties.insert("color".to_string(), get_random_color().into());
-                feat.properties = Some(properties);
-                feat
-            })
-            .collect();
-        new_gj.features = new_features;
+        for feat in new_gj.features.iter_mut() {
+            feat.set_property("color", get_random_color());
+        }
 
         // Except for a few primitive types, usually returning values from Rust happens by
         // serializing to JSON, and deserializing in worker.ts
