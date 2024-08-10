@@ -58,7 +58,7 @@ jobs:
               pnpm python
               pnpm build
               pnpm test
-          
+
           - name: '@uatp/create-web Rust'
             directory: .
             run: |
