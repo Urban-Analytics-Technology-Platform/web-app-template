@@ -10,8 +10,84 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-and-deploy:
+  pre-commit:
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install pnpm components
+        run: |
+          pnpm install
+
+      - name: Run pre-commit
+        uses: pre-commit/action@v3.0.1
+
+      - name: Apply code modifications with pre-commit-ci-lite
+        uses: pre-commit-ci/lite-action@main
+        if: always()
+
+
+  test:
+    name: Test ${{ matrix.packages.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        packages:
+          - name: '@uatp/components'
+            directory: packages/components
+            run: |
+              pnpm build
+              pnpm test
+
+          - name: '@uatp/template'
+            directory: packages/create-web/template/web
+            run: |
+              # Template depends on component library, must build first
+              pnpm --filter=@uatp/components build
+              pnpm rust
+              pnpm python
+              pnpm build
+              pnpm test
+          
+          - name: '@uatp/create-web Rust'
+            directory: .
+            run: |
+              npm exec ./packages/create-web -- --directory /tmp/rust --project-name rust --backend rust
+              cd /tmp/rust/web
+              pnpm install
+              pnpm rust
+              pnpm build
+              pnpm test
+
+          - name: '@uatp/create-web Python'
+            directory: .
+            run: |
+              npm exec ./packages/create-web -- --directory /tmp/python --project-name python --backend python
+              cd /tmp/python/web
+              pnpm install
+              pnpm python
+              pnpm build
+              pnpm test
+
+          - name: '@uatp/create-web no-backend'
+            directory: .
+            run: |
+              npm exec ./packages/create-web -- --directory /tmp/none --project-name none --backend none
+              cd /tmp/none/web
+              pnpm install
+              pnpm build
+              pnpm test
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,50 +114,40 @@ jobs:
       - name: Install dependencies for all packages
         run: pnpm install
 
-      # NOTE: It's important to build @uatp/components _before_ uatp_template,
-      # since the latter depends on it.
-      - name: Test @uatp/components
-        working-directory: packages/components
-        run: |
-          pnpm build
-          pnpm test
+      - name: Test ${{ matrix.packages.name }}
+        working-directory: ${{ matrix.packages.directory }}
+        run: ${{ matrix.packages.run }}
 
-      - name: Test @uatp/template
-        working-directory: packages/create-web/template/web
-        run: |
-          pnpm rust
-          pnpm python
-          pnpm build
-          pnpm test
 
-      - name: Test @uatp/create-web Rust
-        run: |
-          npm exec ./packages/create-web -- --directory /tmp/rust --project-name rust --backend rust
-          cd /tmp/rust/web
-          pnpm install
-          pnpm rust
-          pnpm build
-          pnpm test
+  deploy:
+    name: Deploy to GitHub Pages
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Test @uatp/create-web Python
-        run: |
-          npm exec ./packages/create-web -- --directory /tmp/python --project-name python --backend python
-          cd /tmp/python/web
-          pnpm install
-          pnpm python
-          pnpm build
-          pnpm test
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
-      - name: Test @uatp/create-web no-backend
-        run: |
-          npm exec ./packages/create-web -- --directory /tmp/none --project-name none --backend none
-          cd /tmp/none/web
-          pnpm install
-          pnpm build
-          pnpm test
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: 'pnpm'
 
-      - name: Rebuild template for publishing (if on main branch)
-        if: github.ref == 'refs/heads/main'
+      - name: Install wasm-pack
+        uses: jetli/wasm-pack-action@v0.4.0
+
+      - name: Cache WASM build
+        uses: actions/cache@v3
+        with:
+          path: packages/create-web/template/rust_backend/target
+          key: rust_backend
+
+      - name: Build template for publishing
         working-directory: packages/create-web/template/web
         run: |
           pnpm install
@@ -91,35 +157,8 @@ jobs:
           # Unclear why this is necessary
           cp -Rv build/assets/ build/_app/immutable/workers/
 
-      - name: Publish (if on main branch)
-        if: github.ref == 'refs/heads/main'
+      - name: Publish
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: packages/create-web/template/web/build
-
-
-  pre-commit:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
-      - name: Install pnpm components
-        run: |
-          pnpm install
-
-      - name: Run pre-commit
-        uses: pre-commit/action@v3.0.1
-
-      - name: Apply code modifications with pre-commit-ci-lite
-        uses: pre-commit-ci/lite-action@main
-        if: always()
