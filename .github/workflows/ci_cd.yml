@@ -105,11 +105,18 @@ jobs:
       - name: Install wasm-pack
         uses: jetli/wasm-pack-action@v0.4.0
 
-      - name: Cache WASM build
+      - name: Generate Cargo.lock file (for @uatp/template test)
+        if: ${{ matrix.packages.name == '@uatp/template' }}
+        working-directory: ${{ matrix.packages.directory }}/../rust_backend
+        run: cargo generate-lockfile
+
+      - name: Cache WASM build (for @uatp/template test)
+        if: ${{ matrix.packages.name == '@uatp/template' }}
         uses: actions/cache@v3
         with:
           path: packages/create-web/template/rust_backend/target
-          key: rust_backend
+          key: rust_backend-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: rust_backend
 
       - name: Install dependencies for all packages
         run: pnpm install
@@ -145,7 +152,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: packages/create-web/template/rust_backend/target
-          key: rust_backend
+          key: rust_backend-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: rust_backend
 
       - name: Build template for publishing
         working-directory: packages/create-web/template/web
