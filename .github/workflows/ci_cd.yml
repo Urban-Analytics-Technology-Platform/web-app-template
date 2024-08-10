@@ -1,12 +1,16 @@
+name: Test and deploy
+
 on:
   pull_request:
-    branches: [main]
-
+    branches:
+      - main
   push:
-    branches: [main]
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-  test:
+  test-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -17,13 +21,18 @@ jobs:
         with:
           version: 9
 
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: 'pnpm'
+
       - name: Install wasm-pack
         uses: jetli/wasm-pack-action@v0.4.0
 
       - name: Cache WASM build
         uses: actions/cache@v3
         with:
-          path: rust_backend/target
+          path: packages/create-web/template/rust_backend/target
           key: rust_backend
 
       - name: Install dependencies for all packages
@@ -32,20 +41,18 @@ jobs:
       # NOTE: It's important to build @uatp/components _before_ uatp_template,
       # since the latter depends on it.
       - name: Test @uatp/components
+        working-directory: packages/components
         run: |
-          pnpm --filter=@uatp/components build
-          pnpm --filter=@uatp/components test
+          pnpm build
+          pnpm test
 
       - name: Test @uatp/template
+        working-directory: packages/create-web/template/web
         run: |
-          pnpm --filter=@uatp/template rust
-          pnpm --filter=@uatp/template python
-          pnpm --filter=@uatp/template build
-          pnpm --filter=@uatp/template test
-
-      # pnpm can't do 'exec', have to use npm
-      - name: Install npm
-        uses: actions/setup-node@v4
+          pnpm rust
+          pnpm python
+          pnpm build
+          pnpm test
 
       - name: Test @uatp/create-web Rust
         run: |
@@ -73,6 +80,23 @@ jobs:
           pnpm build
           pnpm test
 
+      - name: Rebuild template for publishing (if on main branch)
+        if: github.ref == 'refs/heads/main'
+        working-directory: packages/create-web/template/web
+        run: |
+          pnpm install
+          pnpm rust
+          pnpm python
+          BASE_PATH=/web-app-template pnpm build
+          # Unclear why this is necessary
+          cp -Rv build/assets/ build/_app/immutable/workers/
+
+      - name: Publish (if on main branch)
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: packages/create-web/template/web/build
 
 
   pre-commit:
@@ -96,6 +120,6 @@ jobs:
       - name: Run pre-commit
         uses: pre-commit/action@v3.0.1
 
-      - name: Update pre-commit
+      - name: Apply code modifications with pre-commit-ci-lite
         uses: pre-commit-ci/lite-action@main
         if: always()
