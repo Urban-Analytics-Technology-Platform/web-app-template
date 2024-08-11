@@ -148,6 +148,10 @@ jobs:
       - name: Install wasm-pack
         uses: jetli/wasm-pack-action@v0.4.0
 
+      - name: Generate Cargo.lock file
+        working-directory: packages/create-web/template/rust_backend
+        run: cargo generate-lockfile
+
       - name: Cache WASM build
         uses: actions/cache@v3
         with:
