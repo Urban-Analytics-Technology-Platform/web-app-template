@@ -44,13 +44,21 @@ jobs:
       matrix:
         packages:
           - name: '@uatp/components'
+            # Working directory to run tests in
             directory: packages/components
+            # Whether to set up Rust on the runner
+            rust: false
+            # Whether to set up Python on the runner
+            python: false
+            # The commands to run
             run: |
               pnpm build
               pnpm test
 
           - name: '@uatp/template'
             directory: packages/create-web/template/web
+            rust: true
+            python: true
             run: |
               # Template depends on component library, must build first
               pnpm --filter=@uatp/components build
@@ -61,6 +69,8 @@ jobs:
 
           - name: '@uatp/create-web Rust'
             directory: .
+            rust: true
+            python: false
             run: |
               npm exec ./packages/create-web -- --directory /tmp/rust --project-name rust --backend rust
               cd /tmp/rust/web
@@ -71,6 +81,8 @@ jobs:
 
           - name: '@uatp/create-web Python'
             directory: .
+            rust: false
+            python: true
             run: |
               npm exec ./packages/create-web -- --directory /tmp/python --project-name python --backend python
               cd /tmp/python/web
@@ -81,6 +93,8 @@ jobs:
 
           - name: '@uatp/create-web no-backend'
             directory: .
+            rust: false
+            python: false
             run: |
               npm exec ./packages/create-web -- --directory /tmp/none --project-name none --backend none
               cd /tmp/none/web
@@ -102,15 +116,22 @@ jobs:
         with:
           cache: 'pnpm'
 
-      - name: Install wasm-pack
+      - name: Install wasm-pack (if needed)
+        if: ${{ matrix.packages.rust == true }}
         uses: jetli/wasm-pack-action@v0.4.0
 
-      - name: Generate Cargo.lock file (for @uatp/template test)
+      - name: Install Python (if needed)
+        if: ${{ matrix.packages.python == true }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Generate Cargo.lock file (if needed)
         if: ${{ matrix.packages.name == '@uatp/template' }}
         working-directory: ${{ matrix.packages.directory }}/../rust_backend
         run: cargo generate-lockfile
 
-      - name: Cache WASM build (for @uatp/template test)
+      - name: Cache WASM build (if needed)
         if: ${{ matrix.packages.name == '@uatp/template' }}
         uses: actions/cache@v3
         with:
@@ -147,6 +168,11 @@ jobs:
 
       - name: Install wasm-pack
         uses: jetli/wasm-pack-action@v0.4.0
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
 
       - name: Generate Cargo.lock file
         working-directory: packages/create-web/template/rust_backend
