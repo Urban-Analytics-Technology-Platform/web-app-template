@@ -158,6 +158,7 @@ jobs:
       - name: Build template for publishing
         working-directory: packages/create-web/template/web
         run: |
+          pnpm --filter=@uatp/components install
           pnpm --filter=@uatp/components build
           pnpm install
           pnpm rust
