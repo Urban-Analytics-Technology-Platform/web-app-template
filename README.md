@@ -49,17 +49,19 @@ If you are looking to _develop_ the UA web template, i.e. make changes to the co
 
 To get started, you'll need:
 
-- [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+- [Node.js and npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 - [pnpm](https://pnpm.io/installation)
-- [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/)
+- [Rust](https://www.rust-lang.org/tools/install) (via rustup) — required for the Rust backend
+- [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/) — required for the Rust backend
+- [Python 3](https://www.python.org/downloads/) — required for the Python backend
 
 The first time you clone this repository, run from the top-level directory:
 
 ```bash
 pnpm install
 pnpm --filter @uatp/components build
-pnpm --filter uatp_template wasm
-pnpm --filter uatp_template build
+pnpm --filter @uatp/template rust
+pnpm --filter @uatp/template build
 ```
 
 The `--filter ...` flag is used to run a command in a specific package.
